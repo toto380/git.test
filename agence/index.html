@@ -544,7 +544,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: space-around;
-            height: 250px;
+            height: fit-content;
             border-bottom: 1px solid var(--grey-border);
             padding-bottom: 10px;
         }
@@ -962,7 +962,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; }
             .process-row::before { display: none; }
-            .process-row { flex-direction: column; gap: 40px; }
+            .process-row { flex-direction: column; gap: 40px; align-items: center; }
             .form-row { grid-template-columns: 1fr; }
             .container { padding: 0 24px; }
             .float-card { display: none; }
