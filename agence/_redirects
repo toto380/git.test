@@ -1,0 +1,12 @@
+# =========================
+# HTTP → HTTPS + apex → www
+# =========================
+
+http://stratads.fr/*      https://www.stratads.fr/:splat      301!
+https://stratads.fr/*     https://www.stratads.fr/:splat     301!
+
+http://stratads.eu/*      https://www.stratads.eu/:splat      301!
+https://stratads.eu/*     https://www.stratads.eu/:splat     301!
+
+http://stratads.agency/*  https://www.stratads.agency/:splat  301!
+https://stratads.agency/* https://www.stratads.agency/:splat 301!
