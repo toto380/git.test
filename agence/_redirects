@@ -1,24 +1,25 @@
 # =========================
-# Canonical domain
+# Canonical domain (FR)
+# Force HTTPS + WWW
 # =========================
 
-http://stratads.fr/*      https://www.stratads.fr/:splat   301!
-https://stratads.fr/*     https://www.stratads.fr/:splat   301!
+http://stratads.fr/*        https://www.stratads.fr/:splat   301!
+https://stratads.fr/*       https://www.stratads.fr/:splat   301!
 
 # =========================
-# EU → FR
+# EU → FR (alias)
 # =========================
 
-http://stratads.eu/*      https://www.stratads.fr/:splat   301!
-https://stratads.eu/*     https://www.stratads.fr/:splat   301!
-http://www.stratads.eu/*  https://www.stratads.fr/:splat   301!
-https://www.stratads.eu/* https://www.stratads.fr/:splat   301!
+http://stratads.eu/*        https://www.stratads.fr/:splat   301!
+https://stratads.eu/*       https://www.stratads.fr/:splat   301!
+http://www.stratads.eu/*    https://www.stratads.fr/:splat   301!
+https://www.stratads.eu/*   https://www.stratads.fr/:splat   301!
 
 # =========================
-# AGENCY → FR
+# AGENCY → FR (alias)
 # =========================
 
-http://stratads.agency/*      https://www.stratads.fr/:splat   301!
-https://stratads.agency/*     https://www.stratads.fr/:splat   301!
-http://www.stratads.agency/*  https://www.stratads.fr/:splat   301!
-https://www.stratads.agency/* https://www.stratads.fr/:splat   301!
+http://stratads.agency/*        https://www.stratads.fr/:splat   301!
+https://stratads.agency/*       https://www.stratads.fr/:splat   301!
+http://www.stratads.agency/*    https://www.stratads.fr/:splat   301!
+https://www.stratads.agency/*   https://www.stratads.fr/:splat   301!
