@@ -8,6 +8,8 @@ https://stratads.eu/*       https://www.stratads.fr/:splat 301
 http://www.stratads.eu/*    https://www.stratads.fr/:splat 301
 https://www.stratads.eu/*   https://www.stratads.fr/:splat 301
 
+<link rel="canonical" href="https://www.stratads.fr/" />
+
 http://stratads.agency/*        https://www.stratads.fr/:splat 301
 https://stratads.agency/*       https://www.stratads.fr/:splat 301
 http://www.stratads.agency/*    https://www.stratads.fr/:splat 301
