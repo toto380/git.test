@@ -1,23 +1,19 @@
-# =========================
-# STRATADS – CANONICAL RULES
-# =========================
+# Canonical: https://www.stratads.fr
 
-# 1. Force HTTPS + WWW (priorité max)
-http://stratads.fr/*        https://www.stratads.fr/:splat        301!
-http://www.stratads.fr/*    https://www.stratads.fr/:splat        301!
-https://stratads.fr/*       https://www.stratads.fr/:splat        301!
+# Force HTTPS + WWW on stratads.fr
+http://stratads.fr/*            https://www.stratads.fr/:splat   301!
+http://www.stratads.fr/*        https://www.stratads.fr/:splat   301!
+https://stratads.fr/*           https://www.stratads.fr/:splat   301!
 
-# 2. Redirection des autres domaines vers le canon
-https://stratads.agency/*   https://www.stratads.fr/:splat        301!
-http://stratads.agency/*    https://www.stratads.fr/:splat        301!
-https://www.stratads.eu/*   https://www.stratads.fr/:splat        301!
-http://stratads.eu/*        https://www.stratads.fr/:splat        301!
+# stratads.eu -> canonical
+http://stratads.eu/*            https://www.stratads.fr/:splat   301!
+http://www.stratads.eu/*        https://www.stratads.fr/:splat   301!
+https://stratads.eu/*           https://www.stratads.fr/:splat   301!
+https://www.stratads.eu/*       https://www.stratads.fr/:splat   301!
 
-# 3. Nettoyage slash final (optionnel mais recommandé)
-https://www.stratads.fr/*/  https://www.stratads.fr/:splat        301!
+# stratads.agency -> canonical
+http://stratads.agency/*        https://www.stratads.fr/:splat   301!
+http://www.stratads.agency/*    https://www.stratads.fr/:splat   301!
+https://stratads.agency/*       https://www.stratads.fr/:splat   301!
+https://www.stratads.agency/*   https://www.stratads.fr/:splat   301!
 
-# 4. Page de succès Netlify form (sécurité)
-https://www.stratads.fr/success  /success.html                   200
-
-# 5. Fallback SPA / sécurité (si besoin)
-# /* /index.html 200
