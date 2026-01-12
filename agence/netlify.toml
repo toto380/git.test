@@ -1,0 +1,31 @@
+[[headers]]
+for = "/*"
+  [headers.values]
+  # Force HTTPS (HSTS)
+  Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+  # Empêche le clickjacking
+  X-Frame-Options = "DENY"
+
+  # Empêche le sniffing MIME
+  X-Content-Type-Options = "nosniff"
+
+  # Contrôle du referrer
+  Referrer-Policy = "strict-origin-when-cross-origin"
+
+  # Permissions modernes
+  Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+  # CSP (version compatible avec ton site)
+  Content-Security-Policy = """
+    default-src 'self';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    object-src 'none';
+    img-src 'self' https: data:;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com data:;
+    script-src 'self' 'unsafe-inline' https://unpkg.com https://threejs.org https://fonts.googleapis.com;
+    connect-src 'self';
+  """
