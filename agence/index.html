@@ -1295,9 +1295,23 @@
         <h2 class="heading-premium">Démarrer l'Analyse</h2>
         <p class="sub-heading">Discutons de vos objectifs d'acquisition et de vos enjeux de croissance.</p>
 
-        <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/success">
-          <input type="hidden" name="form-name" value="contact">
-          <input type="hidden" name="subject" value="Nouveau Lead StratAds - Demande d'Analyse">
+        <form class="contact-form"
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              action="/success">
+
+        <input type="hidden" name="form-name" value="contact">
+
+        <p style="display:none;">
+        <label>Ne pas remplir :
+           <input name="bot-field">
+         </label>
+         </p>
+
+  <div class="form-row">
+    ...
 
           <div class="form-row">
             <div class="input-group"><input type="text" name="nom" class="input-premium" placeholder="Nom Complet" required></div>
@@ -1371,183 +1385,233 @@
        THREE.JS PLANET (EUROPE START + VERY LIGHT ZOOM)
        ========================= -->
   <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
 
-    const container = document.getElementById("earth-bg");
-    const hero = document.querySelector(".hero");
-    if (!container || !hero) throw new Error("Missing #earth-bg or .hero");
+  const container = document.getElementById("earth-bg");
+  const hero = document.querySelector(".hero");
+  if (!container || !hero) throw new Error("Missing #earth-bg or .hero");
 
-    // Scene
-    const scene = new THREE.Scene();
+  // ---------- Mobile detection ----------
+  const isMobile = matchMedia("(max-width: 768px)").matches || /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-    // Camera: léger dézoom uniquement, départ pas trop proche
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 6000);
+  // ---------- Scene ----------
+  const scene = new THREE.Scene();
 
-    // Départ: Europe en face (approx) + distance moyenne
-    const camFrom = new THREE.Vector3(0.25, 0.55, 7.4);
-    // Fin: très léger dézoom
-    const camTo   = new THREE.Vector3(0.15, 0.52, 8.1);
+  // Camera: léger dézoom, départ Europe (approx)
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 6000);
 
-    camera.position.copy(camFrom);
+  const camFrom = new THREE.Vector3(0.25, 0.55, 7.4);
+  const camTo   = new THREE.Vector3(0.15, 0.52, 8.1);
+
+  camera.position.copy(camFrom);
+  camera.lookAt(0, 0, 0);
+
+  // ---------- Renderer (mobile-friendly) ----------
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: !isMobile,                 // OFF mobile (perf)
+      powerPreference: "low-power",         // mobile battery-friendly
+      preserveDrawingBuffer: false
+    });
+  } catch (e) {
+    // Si WebGL crash (rare), on stop proprement
+    console.warn("WebGL init failed:", e);
+    container.style.display = "none";
+    throw e;
+  }
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.35 : 1.75)); // limit DPR mobile
+  renderer.setSize(container.clientWidth, container.clientHeight, false);
+
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+
+  container.appendChild(renderer.domElement);
+
+  // ---------- Lights ----------
+  scene.add(new THREE.AmbientLight(0xffffff, 0.12));
+
+  const key = new THREE.DirectionalLight(0xffffff, 1.0);
+  key.position.set(7, 4, 10);
+  scene.add(key);
+
+  const rim = new THREE.DirectionalLight(0x66ccff, 0.40);
+  rim.position.set(-10, 2, -12);
+  scene.add(rim);
+
+  // ---------- Stars (slightly reduced mobile) ----------
+  const starsCount = isMobile ? 650 : 1100;
+  const starsPos = new Float32Array(starsCount * 3);
+  for (let i = 0; i < starsCount; i++) {
+    const r = 160 + Math.random() * 520;
+    const u = Math.random(), v = Math.random();
+    const theta = 2 * Math.PI * u;
+    const phi = Math.acos(2 * v - 1);
+    starsPos[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
+    starsPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    starsPos[i * 3 + 2] = r * Math.cos(phi);
+  }
+
+  const starsGeo = new THREE.BufferGeometry();
+  starsGeo.setAttribute("position", new THREE.BufferAttribute(starsPos, 3));
+
+  const starsMat = new THREE.PointsMaterial({
+    size: isMobile ? 0.5 : 0.55,
+    transparent: true,
+    opacity: 0.55,
+    depthWrite: false
+  });
+
+  const stars = new THREE.Points(starsGeo, starsMat);
+  scene.add(stars);
+
+  // ---------- Earth (geometry scaled for mobile) ----------
+  const R = 2.35;
+  const seg = isMobile ? 48 : 96; // 192 était très lourd sur mobile
+
+  const earthMat = new THREE.MeshPhongMaterial({ color: 0x081225, shininess: 22 });
+  const earth = new THREE.Mesh(new THREE.SphereGeometry(R, seg, seg), earthMat);
+  scene.add(earth);
+
+  // Orientation Europe (approx)
+  earth.rotation.y = -0.9;
+  earth.rotation.x =  0.05;
+
+  // Atmosphere (halo)
+  const atmo = new THREE.Mesh(
+    new THREE.SphereGeometry(R * 1.022, seg, seg),
+    new THREE.MeshBasicMaterial({
+      color: 0x66ccff,
+      transparent: true,
+      opacity: 0.08,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    })
+  );
+  scene.add(atmo);
+
+  // ---------- Textures (2K mobile / 4K desktop) ----------
+  const loader = new THREE.TextureLoader();
+
+  // NOTE: threejs.org propose des textures 2K. Si tu as des 4K locales, remplace ces URLs par tes fichiers.
+  const dayUrl_2k   = "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg";
+  const nightUrl_2k = "https://threejs.org/examples/textures/planets/earth_lights_2048.png";
+  const normUrl_2k  = "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg";
+
+  // Placeholders "4k": si tu as des fichiers locaux, c’est ICI qu’il faut les mettre.
+  // Exemple: "/textures/earth_day_4k.jpg"
+  const dayUrl_4k   = dayUrl_2k;
+  const nightUrl_4k = nightUrl_2k;
+  const normUrl_4k  = normUrl_2k;
+
+  const dayUrl   = isMobile ? dayUrl_2k   : dayUrl_4k;
+  const nightUrl = isMobile ? nightUrl_2k : nightUrl_4k;
+  const normUrl  = isMobile ? normUrl_2k  : normUrl_4k;
+
+  function tuneColor(tex) {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
+
+    // anisotropy safe
+    const maxAniso = renderer.capabilities.getMaxAnisotropy?.() || 1;
+    tex.anisotropy = Math.min(maxAniso, isMobile ? 4 : maxAniso);
+
+    tex.needsUpdate = true;
+  }
+
+  function tuneNonColor(tex) {
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
+
+    const maxAniso = renderer.capabilities.getMaxAnisotropy?.() || 1;
+    tex.anisotropy = Math.min(maxAniso, isMobile ? 4 : maxAniso);
+
+    tex.needsUpdate = true;
+  }
+
+  loader.load(dayUrl, (tex) => {
+    tuneColor(tex);
+    earthMat.map = tex;
+    earthMat.needsUpdate = true;
+  });
+
+  loader.load(nightUrl, (tex) => {
+    tuneColor(tex);
+    earthMat.emissive = new THREE.Color(0xffffff);
+    earthMat.emissiveMap = tex;
+    earthMat.emissiveIntensity = isMobile ? 1.15 : 1.35;
+    earthMat.needsUpdate = true;
+  });
+
+  loader.load(normUrl, (tex) => {
+    tuneNonColor(tex);
+    earthMat.normalMap = tex;
+    earthMat.normalScale = new THREE.Vector2(isMobile ? 0.5 : 0.6, isMobile ? 0.5 : 0.6);
+    earthMat.needsUpdate = true;
+  });
+
+  // ---------- Resize (robust + DPR refresh) ----------
+  function resize() {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.35 : 1.75));
+    renderer.setSize(w, h, false);
+
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("orientationchange", resize, { passive: true });
+  resize();
+
+  // ---------- Perf: pause when hero offscreen ----------
+  let running = true;
+  const io = new IntersectionObserver((entries) => {
+    running = entries[0]?.isIntersecting ?? true;
+  }, { threshold: 0.05 });
+  io.observe(hero);
+
+  // ---------- Zoom (very light) ----------
+  const zoomDuration = 2.2;
+  const t0 = performance.now();
+  function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
+
+  // rotation speed mobile vs desktop
+  const rotEarth = isMobile ? 0.00055 : 0.00105;
+  const rotAtmo  = isMobile ? 0.00045 : 0.00085;
+  const rotStars = isMobile ? -0.00006 : -0.00010;
+
+  // ---------- Render loop ----------
+  function tick() {
+    requestAnimationFrame(tick);
+    if (!running) return;
+
+    const t = (performance.now() - t0) / 1000;
+
+    // light zoom only at start
+    let u = Math.min(1, t / zoomDuration);
+    u = easeOutCubic(u);
+
+    const camPos = camFrom.clone().lerp(camTo, u);
+    camera.position.lerp(camPos, 0.12);
     camera.lookAt(0, 0, 0);
 
-    // Renderer (alpha pour que tes layers restent visibles)
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
-    renderer.setSize(container.clientWidth, container.clientHeight, false);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    container.appendChild(renderer.domElement);
+    earth.rotation.y += rotEarth;
+    atmo.rotation.y  += rotAtmo;
+    stars.rotation.y += rotStars;
 
-    // Lights (ciné)
-    scene.add(new THREE.AmbientLight(0xffffff, 0.12));
+    renderer.render(scene, camera);
+  }
 
-    const key = new THREE.DirectionalLight(0xffffff, 1.0);
-    key.position.set(7, 4, 10);
-    scene.add(key);
-
-    const rim = new THREE.DirectionalLight(0x66ccff, 0.40);
-    rim.position.set(-10, 2, -12);
-    scene.add(rim);
-
-    // Stars (léger)
-    const starsCount = 1100;
-    const starsPos = new Float32Array(starsCount * 3);
-    for (let i = 0; i < starsCount; i++) {
-      const r = 160 + Math.random() * 520;
-      const u = Math.random(), v = Math.random();
-      const theta = 2 * Math.PI * u;
-      const phi = Math.acos(2 * v - 1);
-      starsPos[i*3+0] = r * Math.sin(phi) * Math.cos(theta);
-      starsPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-      starsPos[i*3+2] = r * Math.cos(phi);
-    }
-    const starsGeo = new THREE.BufferGeometry();
-    starsGeo.setAttribute("position", new THREE.BufferAttribute(starsPos, 3));
-    const starsMat = new THREE.PointsMaterial({
-      size: 0.55,
-      transparent: true,
-      opacity: 0.55,
-      depthWrite: false
-    });
-    const stars = new THREE.Points(starsGeo, starsMat);
-    scene.add(stars);
-
-    // Earth
-    const R = 2.35;
-    const earthMat = new THREE.MeshPhongMaterial({ color: 0x081225, shininess: 22 });
-    const earth = new THREE.Mesh(new THREE.SphereGeometry(R, 192, 192), earthMat);
-    scene.add(earth);
-
-    // Orientation Europe (approx)
-    earth.rotation.y = -0.9;
-    earth.rotation.x =  0.05;
-
-    // Atmosphere (halo)
-    const atmo = new THREE.Mesh(
-      new THREE.SphereGeometry(R * 1.022, 192, 192),
-      new THREE.MeshBasicMaterial({
-        color: 0x66ccff,
-        transparent: true,
-        opacity: 0.08,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending
-      })
-    );
-    scene.add(atmo);
-
-    // Textures
-    const loader = new THREE.TextureLoader();
-
-    // (Tu peux remplacer par des 4K/8K si tu en as)
-    const dayUrl   = "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg";
-    const nightUrl = "https://threejs.org/examples/textures/planets/earth_lights_2048.png";
-    const normUrl  = "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg";
-
-    function tuneColor(tex) {
-      tex.colorSpace = THREE.SRGBColorSpace;
-      tex.minFilter = THREE.LinearMipmapLinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.generateMipmaps = true;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      tex.needsUpdate = true;
-    }
-    function tuneNonColor(tex) {
-      tex.minFilter = THREE.LinearMipmapLinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.generateMipmaps = true;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      tex.needsUpdate = true;
-    }
-
-    loader.load(dayUrl, (tex) => {
-      tuneColor(tex);
-      earthMat.map = tex;
-      earthMat.needsUpdate = true;
-    });
-
-    loader.load(nightUrl, (tex) => {
-      tuneColor(tex);
-      earthMat.emissive = new THREE.Color(0xffffff);
-      earthMat.emissiveMap = tex;
-      earthMat.emissiveIntensity = 1.35;
-      earthMat.needsUpdate = true;
-    });
-
-    loader.load(normUrl, (tex) => {
-      tuneNonColor(tex);
-      earthMat.normalMap = tex;
-      earthMat.normalScale = new THREE.Vector2(0.6, 0.6);
-      earthMat.needsUpdate = true;
-    });
-
-    // Resize
-    function resize() {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h, false);
-    }
-    window.addEventListener("resize", resize, { passive: true });
-    resize();
-
-    // Perf: pause si le hero est hors écran
-    let running = true;
-    const io = new IntersectionObserver((entries) => {
-      running = entries[0]?.isIntersecting ?? true;
-    }, { threshold: 0.05 });
-    io.observe(hero);
-
-    // Dézoom très léger (court), puis fixe
-    const zoomDuration = 2.2;
-    const t0 = performance.now();
-    function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
-
-    function tick() {
-      requestAnimationFrame(tick);
-      if (!running) return;
-
-      const t = (performance.now() - t0) / 1000;
-
-      // LÉGER dézoom au début
-      let u = Math.min(1, t / zoomDuration);
-      u = easeOutCubic(u);
-      const camPos = camFrom.clone().lerp(camTo, u);
-      camera.position.lerp(camPos, 0.12);
-      camera.lookAt(0, 0, 0);
-
-      // Rotation douce
-      earth.rotation.y += 0.00105;
-      atmo.rotation.y  += 0.00085;
-      stars.rotation.y -= 0.00010;
-
-      renderer.render(scene, camera);
-    }
-    tick();
-  </script>
-
+  tick();
+</script>
 </body>
 </html>
-
