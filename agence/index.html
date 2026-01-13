@@ -1601,6 +1601,23 @@
     running = entries[0]?.isIntersecting ?? true;
   }, { threshold: 0.05 });
   io.observe(hero);
+<!-- NETLIFY FORM (HIDDEN) : DOIT ÊTRE DANS LE BODY, PAS DANS UN SCRIPT -->
+<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="contact" />
+  <p hidden>
+    <label>Ne pas remplir : <input name="bot-field" /></label>
+  </p>
+
+  <input type="text" name="nom" />
+  <input type="text" name="societe" />
+  <input type="text" name="chiffre_affaire" />
+  <input type="email" name="email" />
+  <select name="budget"></select>
+  <select name="collaboration"></select>
+  <input type="radio" name="active_ads" value="oui" />
+  <input type="radio" name="active_ads" value="non" />
+  <textarea name="message"></textarea>
+</form>
 
   // ---------- Zoom ----------
   const zoomDuration = 2.2;
@@ -1630,17 +1647,6 @@
 
     renderer.render(scene, camera);
   }
-  <form name="contact" data-netlify="true" hidden>
-    <input type="text" name="nom">
-    <input type="text" name="societe">
-    <input type="text" name="chiffre_affaire">
-    <input type="email" name="email">
-    <select name="budget"></select>
-    <select name="collaboration"></select>
-    <input type="radio" name="active_ads" value="oui">
-    <textarea name="message"></textarea>
-</form>
-
   tick();
   </script>
 </body>
