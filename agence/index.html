@@ -6,6 +6,7 @@
 
   <title>StratAds | Cabinet d'Acquisition</title>
   <meta name="description" content="StratAds, cabinet d’acquisition : pilotage Meta/Google Ads, architecture de compte et data intelligence pour scaler votre croissance avec un focus ROI.">
+
   <!-- =========================
        MAX CANONISATION (stratads.fr)
        ========================= -->
@@ -206,7 +207,7 @@
       position: relative;
       overflow: hidden;
       padding: 100px 0;
-      background: transparent !important; /* fond remplacé par la planète */
+      background: transparent !important;
       perspective: 1000px;
     }
 
@@ -895,6 +896,12 @@
       margin-bottom: 30px;
     }
 
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .input-premium {
       width: 100%;
       background: rgba(0,0,0,0.2);
@@ -988,18 +995,12 @@
       color: #444;
       border-top: 1px solid rgba(255,255,255,0.05);
       background: #000;
-     }
-     .input-group {
-     display: flex;
-     flex-direction: column;
-     gap: 20px;
-     }
+    }
 
     @media (max-width: 768px) {
       .hero h1 { font-size: 3rem; }
       .process-row::before { display: none; }
       .process-row { flex-direction: column; gap: 40px; align-items: center; }
-      .form-row { grid-template-columns: 1fr; }
       .container { padding: 0 24px; }
       .float-card { display: none; }
       .authority-layout { grid-template-columns: 1fr; }
@@ -1278,8 +1279,15 @@
         <div class="faq-item"><details><summary>Garantissez-vous des résultats ?</summary><div class="faq-answer">Nous garantissons un processus rigoureux, pas un résultat figé.</div></details></div>
         <div class="faq-item"><details><summary>Comment commence la collaboration ?</summary><div class="faq-answer">Par un diagnostic acquisition pour analyser votre système.</div></details></div>
         <div class="faq-item"><details><summary>Travaillez-vous à l’international ?</summary><div class="faq-answer">Oui, sur plusieurs marchés et plateformes.</div></details></div>
-        <div class="faq-item"><details><summary>Quels outils utilisez-vous ?</summary><div class="faq-answer">Principalement Meta Ads, Google Ads, des outils de tracking & analytics avancés.
-                                                Nous mettons également en place des landing pages orientées conversion lorsque cela est nécessaire à la performance.</div></details></div>
+        <div class="faq-item">
+          <details>
+            <summary>Quels outils utilisez-vous ?</summary>
+            <div class="faq-answer">
+              Principalement Meta Ads, Google Ads, des outils de tracking & analytics avancés.
+              Nous mettons également en place des landing pages orientées conversion lorsque cela est nécessaire à la performance.
+            </div>
+          </details>
+        </div>
         <div class="faq-item"><details><summary>Que n’incluez-vous jamais dans vos services ?</summary><div class="faq-answer">Aucune créa, aucun tunnel. Acquisition only.</div></details></div>
       </div>
     </div>
@@ -1299,42 +1307,45 @@
         <h2 class="heading-premium">Démarrer l'Analyse</h2>
         <p class="sub-heading">Discutons de vos objectifs d'acquisition et de vos enjeux de croissance.</p>
 
+        <!-- ✅ Form Netlify (visible) -->
         <form class="contact-form"
               name="contact"
               method="POST"
               data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              action="/success">
+              netlify-honeypot="bot-field"
+              action="/success"
+              enctype="application/x-www-form-urlencoded">
 
+          <!-- ✅ Très important : form-name -->
           <input type="hidden" name="form-name" value="contact">
 
+          <!-- Honeypot -->
           <p style="display:none;">
             <label>Ne pas remplir :
-              <input name="bot-field">
+              <input name="bot-field" autocomplete="off">
             </label>
           </p>
 
-          <!-- ✅ Groupe 1 -->
+          <!-- Groupe 1 -->
           <div class="form-row">
             <div class="input-group">
-              <input type="text" name="nom" class="input-premium" placeholder="Nom Complet" required>
+              <input type="text" name="nom" class="input-premium" placeholder="Nom Complet" required autocomplete="name">
             </div>
 
-            <!-- ✅ FIX: name sans espaces -->
+            <!-- ✅ Société : name propre + required -->
             <div class="input-group">
-              <input type="text" id="societe" name="societe" class="input-premium" placeholder="Société" required>
+              <input type="text" id="societe" name="societe" class="input-premium" placeholder="Société" required autocomplete="organization">
             </div>
 
-            <!-- ✅ FIX: name sans apostrophe/espaces -->
             <div class="input-group">
               <input type="text" name="chiffre_affaire" class="input-premium" placeholder="Chiffre d'affaire de la dernière année" required>
             </div>
           </div>
 
-          <!-- ✅ Groupe 2 -->
+          <!-- Groupe 2 -->
           <div class="form-row">
             <div class="input-group">
-              <input type="email" name="email" class="input-premium" placeholder="Email Professionnel" required>
+              <input type="email" name="email" class="input-premium" placeholder="Email Professionnel" required autocomplete="email">
             </div>
 
             <div class="input-group">
@@ -1356,7 +1367,7 @@
             </div>
           </div>
 
-          <!-- ✅ Radio -->
+          <!-- Radio -->
           <div style="margin-bottom: 30px;">
             <label style="color: #64748B; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display:block;">
               Avez-vous des campagnes actives en ce moment ?
@@ -1367,7 +1378,7 @@
             </div>
           </div>
 
-          <!-- ✅ Message -->
+          <!-- Message -->
           <div class="input-group" style="margin-bottom: 40px;">
             <textarea name="message" class="input-premium" rows="3" placeholder="Parlez-nous de vos objectifs..." style="resize: none;"></textarea>
           </div>
@@ -1409,6 +1420,36 @@
     </button>
   </div>
 
+  <!-- ✅✅ NETLIFY BACKUP FORM (HIDDEN) — DOIT ÊTRE DANS LE BODY, PAS DANS LE SCRIPT -->
+  <!-- Ce bloc garantit que Netlify “connait” tous les champs et donc que SOCIETE remonte toujours -->
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="contact">
+    <p hidden>
+      <label>Ne pas remplir : <input name="bot-field"></label>
+    </p>
+
+    <input type="text" name="nom">
+    <input type="text" name="societe">
+    <input type="text" name="chiffre_affaire">
+    <input type="email" name="email">
+    <select name="budget">
+      <option value="5k-10k">5 000€ - 10 000€</option>
+      <option value="10k-30k">10 000€ - 30 000€</option>
+      <option value="30k-100k">30 000€ - 100 000€</option>
+      <option value=">100k">Au-delà de 100 000€</option>
+    </select>
+    <select name="collaboration">
+      <option value="Pilotage externalise">Pilotage externalisé (Mensuel)</option>
+      <option value="Structuration mise a niveau">Structuration & mise à niveau</option>
+      <option value="Audit recommandations">Audit & Recommandations</option>
+      <option value="Scaling international">Scaling international</option>
+    </select>
+
+    <input type="radio" name="active_ads" value="oui">
+    <input type="radio" name="active_ads" value="non">
+    <textarea name="message"></textarea>
+  </form>
+
   <!-- =========================
        THREE.JS PLANET (EUROPE START + VERY LIGHT ZOOM)
        ========================= -->
@@ -1440,7 +1481,7 @@
     renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: !isMobile,                 // OFF mobile (perf)
-      powerPreference: "low-power",         // mobile battery-friendly
+      powerPreference: "low-power",
       preserveDrawingBuffer: false
     });
   } catch (e) {
@@ -1449,7 +1490,7 @@
     throw e;
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.35 : 1.75)); // limit DPR mobile
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.35 : 1.75));
   renderer.setSize(container.clientWidth, container.clientHeight, false);
 
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -1469,7 +1510,7 @@
   rim.position.set(-10, 2, -12);
   scene.add(rim);
 
-  // ---------- Stars (slightly reduced mobile) ----------
+  // ---------- Stars ----------
   const starsCount = isMobile ? 650 : 1100;
   const starsPos = new Float32Array(starsCount * 3);
   for (let i = 0; i < starsCount; i++) {
@@ -1495,7 +1536,7 @@
   const stars = new THREE.Points(starsGeo, starsMat);
   scene.add(stars);
 
-  // ---------- Earth (geometry scaled for mobile) ----------
+  // ---------- Earth ----------
   const R = 2.35;
   const seg = isMobile ? 48 : 96;
 
@@ -1520,20 +1561,16 @@
   );
   scene.add(atmo);
 
-  // ---------- Textures (2K mobile / 4K desktop) ----------
+  // ---------- Textures ----------
   const loader = new THREE.TextureLoader();
 
   const dayUrl_2k   = "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg";
   const nightUrl_2k = "https://threejs.org/examples/textures/planets/earth_lights_2048.png";
   const normUrl_2k  = "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg";
 
-  const dayUrl_4k   = dayUrl_2k;
-  const nightUrl_4k = nightUrl_2k;
-  const normUrl_4k  = normUrl_2k;
-
-  const dayUrl   = isMobile ? dayUrl_2k   : dayUrl_4k;
-  const nightUrl = isMobile ? nightUrl_2k : nightUrl_4k;
-  const normUrl  = isMobile ? normUrl_2k  : normUrl_4k;
+  const dayUrl   = dayUrl_2k;
+  const nightUrl = nightUrl_2k;
+  const normUrl  = normUrl_2k;
 
   function tuneColor(tex) {
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -1543,7 +1580,6 @@
 
     const maxAniso = renderer.capabilities.getMaxAnisotropy?.() || 1;
     tex.anisotropy = Math.min(maxAniso, isMobile ? 4 : maxAniso);
-
     tex.needsUpdate = true;
   }
 
@@ -1554,7 +1590,6 @@
 
     const maxAniso = renderer.capabilities.getMaxAnisotropy?.() || 1;
     tex.anisotropy = Math.min(maxAniso, isMobile ? 4 : maxAniso);
-
     tex.needsUpdate = true;
   }
 
@@ -1601,23 +1636,6 @@
     running = entries[0]?.isIntersecting ?? true;
   }, { threshold: 0.05 });
   io.observe(hero);
-<!-- NETLIFY FORM (HIDDEN) : DOIT ÊTRE DANS LE BODY, PAS DANS UN SCRIPT -->
-<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="contact" />
-  <p hidden>
-    <label>Ne pas remplir : <input name="bot-field" /></label>
-  </p>
-
-  <input type="text" name="nom" />
-  <input type="text" name="societe" />
-  <input type="text" name="chiffre_affaire" />
-  <input type="email" name="email" />
-  <select name="budget"></select>
-  <select name="collaboration"></select>
-  <input type="radio" name="active_ads" value="oui" />
-  <input type="radio" name="active_ads" value="non" />
-  <textarea name="message"></textarea>
-</form>
 
   // ---------- Zoom ----------
   const zoomDuration = 2.2;
@@ -1647,7 +1665,9 @@
 
     renderer.render(scene, camera);
   }
+
   tick();
   </script>
+
 </body>
 </html>
