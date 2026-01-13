@@ -1322,7 +1322,7 @@
 
             <!-- ✅ FIX: name sans espaces -->
             <div class="input-group">
-              <input type="text" name="societe" class="input-premium" placeholder="Société" required>
+              <input type="text" id="societe" name="societe" class="input-premium" placeholder="Société" required>
             </div>
 
             <!-- ✅ FIX: name sans apostrophe/espaces -->
@@ -1630,6 +1630,16 @@
 
     renderer.render(scene, camera);
   }
+  <form name="contact" data-netlify="true" hidden>
+    <input type="text" name="nom">
+    <input type="text" name="societe">
+    <input type="text" name="chiffre_affaire">
+    <input type="email" name="email">
+    <select name="budget"></select>
+    <select name="collaboration"></select>
+    <input type="radio" name="active_ads" value="oui">
+    <textarea name="message"></textarea>
+</form>
 
   tick();
   </script>
