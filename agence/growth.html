@@ -70,6 +70,12 @@
 
     .container{max-width:1200px;margin:0 auto;padding:0 24px}
     a{color:inherit}
+.btn-disabled {
+  pointer-events: none;
+  opacity: 0.45;
+  cursor: default;
+  filter: grayscale(40%);
+}
 
     /* --- NAVIGATION --- */
     header{
@@ -731,6 +737,28 @@
       hideBanner();
     });
   </script>
+<script>
+  (function () {
+    const path = window.location.pathname;
+
+    const btnGrowth = document.getElementById("btn-growth");
+    const btnPremium = document.getElementById("btn-premium");
+
+    if (!btnGrowth || !btnPremium) return;
+
+    // Si on est sur /growth
+    if (path === "/growth" || path === "/growth/") {
+      btnGrowth.classList.add("btn-disabled");
+      btnGrowth.removeAttribute("href");
+    }
+
+    // Si on est sur la homepage (premium)
+    if (path === "/" || path === "/index.html") {
+      btnPremium.classList.add("btn-disabled");
+      btnPremium.removeAttribute("href");
+    }
+  })();
+</script>
 
   <script>
     /**
@@ -912,3 +940,4 @@
   </script>
 </body>
 </html>
+
