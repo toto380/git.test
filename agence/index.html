@@ -183,6 +183,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gap:12px;
   z-index:1200;
 }
+.btn-disabled {
+  pointer-events: none;
+  opacity: 0.45;
+  cursor: default;
+  filter: grayscale(40%);
+}
 
 /* base */
 .btn-top{
@@ -1232,6 +1238,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     pushConsent("denied");
     hideBanner();
   });
+  
+</script>
+  <script>
+  (function () {
+    const path = window.location.pathname;
+
+    const btnGrowth = document.getElementById("btn-growth");
+    const btnPremium = document.getElementById("btn-premium");
+
+    if (!btnGrowth || !btnPremium) return;
+
+    // Si on est sur /growth
+    if (path === "/growth" || path === "/growth/") {
+      btnGrowth.classList.add("btn-disabled");
+      btnGrowth.removeAttribute("href");
+    }
+
+    // Si on est sur la homepage (premium)
+    if (path === "/" || path === "/index.html") {
+      btnPremium.classList.add("btn-disabled");
+      btnPremium.removeAttribute("href");
+    }
+  })();
 </script>
 
 <body>
