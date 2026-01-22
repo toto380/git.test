@@ -9,7 +9,7 @@
   <meta name="description" content="Propulsez votre activité avec StratAds Growth. Une solution d'acquisition standardisée et performante pour entrepreneurs, indépendants et TPE." />
   <meta name="robots" content="index, follow" />
 
-  <!-- FAVICON (double chemin pour éviter les soucis de dossier) -->
+  <!-- FAVICON -->
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="/favicon.png" />
@@ -19,6 +19,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- =========================================================
+       ✅ DATA LAYER (AVANT TOUT) + CONSENT MODE DEFAULT DENIED
+       - On démarre "denied" par défaut (RGPD-friendly)
+       - On pousse page_type tout de suite
+     ========================================================= -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    // page_type distinct (utile GA4/GTM/Netlify)
+    window.dataLayer.push({ page_type: "growth" });
+
+    // Consent default (avant tout tracking)
+    window.dataLayer.push({
+      event: "default_consent",
+      consent: "denied"
+    });
+  </script>
 
   <style>
     :root{
@@ -75,8 +93,6 @@
       text-decoration:none;
       min-width: 220px;
     }
-
-    /* ✅ LOGO = favicon */
     .logo-img{
       height:42px;
       width:42px;
@@ -86,7 +102,6 @@
       background: #fff;
       object-fit: cover;
     }
-
     .brand-name{
       font-weight:900;
       letter-spacing:-.03em;
@@ -96,22 +111,13 @@
       white-space:nowrap;
     }
     .brand-name span{color:var(--brand-blue)}
-    nav{
-      display:flex;align-items:center;gap:14px;
-    }
+    nav{display:flex;align-items:center;gap:14px;}
 
-    /* ✅ Switch pages */
-    .nav-links{
-      display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-    }
+    .nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
     .chip{
       display:inline-flex;align-items:center;justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      text-decoration:none;
-      font-weight:900;
-      font-size:.9rem;
+      padding:10px 14px;border-radius:999px;border:1px solid var(--border);
+      text-decoration:none;font-weight:900;font-size:.9rem;
       color:var(--brand-dark);
       transition:var(--transition);
       background:rgba(255,255,255,.75);
@@ -136,27 +142,19 @@
       padding: calc(var(--header-h) + 40px) 0 72px;
       isolation:isolate;
     }
-
-    /* ✅ fond dynamique plus visible (overlay moins opaque) */
     #growth-canvas{
-      position:absolute;inset:0;
-      width:100%;
-      height:100%;
+      position:absolute;inset:0;width:100%;height:100%;
       z-index:0;
       background:linear-gradient(135deg,#ffffff 0%,#d6f0ff 100%);
       filter: saturate(1.2) contrast(1.05);
     }
-
     .hero::after{
-      content:"";
-      position:absolute;inset:0;
-      z-index:1;
+      content:"";position:absolute;inset:0;z-index:1;
       background:
         radial-gradient(1200px 700px at 50% 18%, rgba(0,137,208,.22), rgba(0,0,0,0) 60%),
         linear-gradient(to bottom, rgba(255,255,255,.15), rgba(255,255,255,.55));
       pointer-events:none;
     }
-
     .hero-content{position:relative;z-index:2;width:100%}
     .hero h1{
       font-size: clamp(2.6rem, 10vw, 6.4rem);
@@ -183,9 +181,7 @@
       border-radius: 14px;
       border: 1px solid rgba(229,231,235,.75);
     }
-    .hero-actions{
-      display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
-    }
+    .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
 
     /* --- BOUTONS --- */
     .btn{
@@ -212,10 +208,7 @@
       color:var(--brand-blue-deep);
       background:rgba(255,255,255,.65);
     }
-    .btn-outline:hover{
-      background:rgba(0,137,208,.14);
-      transform: translateY(-2px);
-    }
+    .btn-outline:hover{background:rgba(0,137,208,.14);transform: translateY(-2px);}
 
     /* --- SECTIONS --- */
     section{padding: 96px 0; position:relative; z-index:2; background: #fff}
@@ -264,12 +257,7 @@
       font-weight: 900;
       box-shadow: 0 12px 24px rgba(0,137,208,.22);
     }
-    .comp-card h4{
-      font-size: 1.4rem;
-      color: var(--brand-dark);
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
+    .comp-card h4{font-size: 1.4rem;color: var(--brand-dark);font-weight: 900;margin-bottom: 10px;}
     .comp-card p{color:var(--text-main);font-weight:600}
     .comp-list{list-style:none;margin-top:22px}
     .comp-list li{
@@ -299,17 +287,10 @@
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: 0 40px 80px rgba(0,0,0,.22);
     }
-    .form-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+    .form-grid{display:grid;grid-template-columns: 1fr 1fr;gap: 18px;}
     .form-group{margin-bottom: 14px}
     label{
-      display:block;
-      margin-bottom: 8px;
-      font-weight: 900;
-      font-size: .85rem;
+      display:block;margin-bottom: 8px;font-weight: 900;font-size: .85rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: .06em;
@@ -352,22 +333,45 @@
     }
 
     /* FOOTER */
-    footer{
-      padding: 76px 0;
-      text-align:center;
-      border-top: 1px solid var(--border);
-      background:#fff;
-    }
+    footer{padding: 76px 0;text-align:center;border-top: 1px solid var(--border);background:#fff;}
     .footer-logo{
-      height: 42px;
-      width: 42px;
-      border-radius: 12px;
-      margin-bottom: 18px;
-      opacity: .95;
+      height: 42px;width: 42px;border-radius: 12px;margin-bottom: 18px;opacity: .95;
       box-shadow: 0 10px 20px rgba(0,0,0,.10);
     }
 
-    /* ✅ Mobile: on garde le switch visible */
+    /* ✅ Cookie banner CSS (IMPORTANT) */
+    .cookie-banner{
+      position:fixed;
+      left:16px; right:16px; bottom:16px;
+      z-index:2000;
+      display:none;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 16px;
+      border-radius:14px;
+      background:#111;
+      color:#fff;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      font-size:14px;
+      line-height:1.35;
+    }
+    .cookie-svg{width:44px;height:44px;flex:0 0 auto;}
+    .cookie-text{margin:0;flex:1 1 auto;opacity:.95;}
+    .cookie-actions{display:flex;gap:10px;flex:0 0 auto;}
+    .cookie-btn{
+      border:none;cursor:pointer;
+      padding:10px 14px;border-radius:12px;
+      font-weight:900;font-size:14px;
+      transition:transform .08s ease, opacity .2s ease;
+    }
+    .cookie-btn:active{transform:scale(.98)}
+    .cookie-btn.accept{background:#00c389;color:#06110c;}
+    .cookie-btn.refuse{
+      background:#2b2b2b;color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+    }
+
     @media (max-width: 900px){
       .contact-form{padding: 34px}
       .card{padding: 32px}
@@ -378,33 +382,33 @@
       .sticky-cta{display:block}
       header .btn{display:none}
       .container{padding: 0 16px}
-
       .brand{min-width:auto}
-      .brand-name{display:none} /* on laisse juste le logo pour gagner de la place */
-
-      /* switch toujours visible */
-      .nav-links{
-        display:flex;
-        gap:8px;
-      }
-      .chip{
-        padding: 9px 10px;
-        font-size: .85rem;
-      }
-
+      .brand-name{display:none}
+      .nav-links{display:flex;gap:8px;}
+      .chip{padding: 9px 10px;font-size: .85rem;}
       section{padding: 80px 0}
       .hero{min-height: 88svh;padding: calc(var(--header-h) + 40px) 0 64px}
       .hero-actions{gap:12px}
       .btn{width: 100%; max-width: 360px}
       .form-grid{grid-template-columns: 1fr}
+      .cookie-banner{flex-direction:column;align-items:flex-start;}
+      .cookie-actions{width:100%}
+      .cookie-btn{width:100%}
     }
-    @media (prefers-reduced-motion: reduce){
-      *{scroll-behavior:auto}
-    }
+    @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
   </style>
 </head>
 
 <body>
+  <!-- =========================================================
+       ✅ GTM NOSCRIPT (OK)
+       NOTE: GTM SCRIPT sera injecté via JS uniquement si "accept"
+     ========================================================= -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCZT7PQ"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
   <!-- STICKY MOBILE -->
   <div class="sticky-cta">
     <a href="#contact" class="btn btn-primary" style="width:100%;" data-track="cta_sticky">Diagnostic Gratuit</a>
@@ -413,25 +417,16 @@
   <!-- HEADER -->
   <header>
     <div class="container nav-content">
-
-      <!-- ✅ Logo favicon haut gauche (avec fallback) -->
       <a class="brand" href="https://stratads.fr/" aria-label="Aller sur StratAds Premium" data-track="nav_to_premium">
-        <img
-          src="/favicon.png"
-          alt="Logo StratAds"
-          class="logo-img"
-          onerror="this.onerror=null; this.src='favicon.png';"
-        />
+        <img src="/favicon.png" alt="Logo StratAds" class="logo-img" onerror="this.onerror=null; this.src='favicon.png';" />
         <div class="brand-name">STRATADS <span>GROWTH</span></div>
       </a>
 
       <nav>
-        <!-- ✅ Switch pages -->
         <div class="nav-links" aria-label="Navigation">
           <a class="chip" href="https://stratads.fr/" data-track="switch_premium">StratAds Premium</a>
-          <a class="chip active" href="growth.html" data-track="switch_growth" aria-current="page">StratAds Growth</a>
+          <a class="chip active" href="croissance.html" data-track="switch_growth" aria-current="page">StratAds Growth</a>
         </div>
-
         <a href="#contact" class="btn btn-primary" data-track="cta_header">Diagnostic Gratuit</a>
       </nav>
     </div>
@@ -440,12 +435,10 @@
   <!-- HERO -->
   <section class="hero">
     <canvas id="growth-canvas" aria-hidden="true"></canvas>
-
     <div class="hero-content">
       <div class="container">
         <h1>STRATADS <span>GROWTH</span></h1>
         <p>Structurez votre acquisition et accélérez vos résultats. La méthode StratAds en version accessible et standardisée pour entrepreneurs ambitieux et TPE.</p>
-
         <div class="hero-actions">
           <a href="#contact" class="btn btn-primary" data-track="cta_hero_main">Obtenir mon diagnostic</a>
           <a href="#comparatif" class="btn btn-outline" data-track="cta_hero_sec">Découvrir l'offre</a>
@@ -479,7 +472,6 @@
   <section class="comparison" id="comparatif">
     <div class="container">
       <h2>Growth ou Premium ?</h2>
-
       <div class="comp-grid">
         <div class="comp-card growth">
           <span class="comp-badge">OFFRE GROWTH</span>
@@ -519,18 +511,29 @@
       <h2>Prêt pour la croissance ?</h2>
 
       <div class="contact-form">
-        <!-- NETLIFY FORM -->
+        <!-- ✅ FORMULAIRE NETLIFY (distinct) -->
         <form
           id="growth-form"
           name="stratads-growth"
           method="POST"
+          netlify
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           action="/merci"
         >
+          <!-- ✅ Obligatoires Netlify -->
           <input type="hidden" name="form-name" value="stratads-growth" />
+          <input type="hidden" name="subject" value="Nouveau lead – Growth" />
+          <input type="hidden" name="page_type" value="growth" />
+
+          <!-- ✅ Ajout utile : consent snapshot -->
+          <input type="hidden" id="cookie_consent_snapshot" name="cookie_consent" value="" />
+
+          <!-- Honeypot anti-spam -->
           <p style="display:none;">
-            <label>Ne pas remplir: <input name="bot-field" /></label>
+            <label>Ne pas remplir :
+              <input name="bot-field" autocomplete="off" />
+            </label>
           </p>
 
           <div class="form-grid">
@@ -600,12 +603,7 @@
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <img
-        src="/favicon.png"
-        alt="StratAds"
-        class="footer-logo"
-        onerror="this.onerror=null; this.src='favicon.png';"
-      />
+      <img src="/favicon.png" alt="StratAds" class="footer-logo" onerror="this.onerror=null; this.src='favicon.png';" />
       <p style="color:var(--text-muted);font-size:.95rem;font-weight:800;">
         © 2024 StratAds Growth — performance accessible & structurée.
       </p>
@@ -615,12 +613,128 @@
     </div>
   </footer>
 
+  <!-- =========================================================
+       ✅ COOKIE BANNER (DOIT ÊTRE DANS <body>)
+     ========================================================= -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookies">
+    <svg class="cookie-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="256" cy="256" r="224" fill="#E6AA68"/>
+      <path fill="#CCA05A" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32z" opacity="0.3"/>
+      <circle cx="180" cy="160" r="25" fill="#3E2723"/>
+      <circle cx="340" cy="200" r="30" fill="#3E2723"/>
+      <circle cx="260" cy="320" r="35" fill="#3E2723"/>
+      <circle cx="140" cy="300" r="20" fill="#3E2723"/>
+      <circle cx="380" cy="320" r="22" fill="#3E2723"/>
+      <circle cx="280" cy="100" r="20" fill="#3E2723"/>
+      <circle cx="100" cy="220" r="15" fill="#3E2723"/>
+      <circle cx="400" cy="120" r="18" fill="#3E2723"/>
+    </svg>
+
+    <p class="cookie-text">
+      Nous utilisons des cookies pour mesurer l’audience et améliorer votre expérience.
+      Vous pouvez accepter ou refuser.
+    </p>
+
+    <div class="cookie-actions">
+      <button id="accept-cookies" class="cookie-btn accept" type="button">Accepter</button>
+      <button id="refuse-cookies" class="cookie-btn refuse" type="button">Refuser</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // Cookie helpers
+    // =========================
+    function setCookie(name, value, days) {
+      const d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = name + "=" + value + ";path=/;expires=" + d.toUTCString() + ";SameSite=Lax";
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    function showBanner() {
+      const banner = document.getElementById("cookie-banner");
+      if (banner) banner.style.display = "flex";
+    }
+
+    function hideBanner() {
+      const banner = document.getElementById("cookie-banner");
+      if (banner) banner.style.display = "none";
+    }
+
+    // =========================
+    // ✅ Load GTM only on accept
+    // =========================
+    function loadGTM() {
+      if (window.__gtm_loaded) return;
+      window.__gtm_loaded = true;
+
+      // inject gtm.js
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtm.js?id=GTM-NCZT7PQ";
+      document.head.appendChild(s);
+
+      // tell dataLayer
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "gtm_loaded_via_consent" });
+    }
+
+    function pushConsent(consent) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "cookie_consent",
+        consent: consent // "granted" | "denied"
+      });
+    }
+
+    function applyConsent(choice) {
+      // update hidden field for Netlify
+      const snap = document.getElementById("cookie_consent_snapshot");
+      if (snap) snap.value = choice;
+
+      if (choice === "accepted") {
+        pushConsent("granted");
+        loadGTM();
+      } else {
+        pushConsent("denied");
+      }
+    }
+
+    // Init banner
+    (function initCookieBanner() {
+      const consent = getCookie("cookie_consent");
+      if (!consent) {
+        showBanner();
+        applyConsent("refused"); // default denied tant que pas de choix
+        return;
+      }
+      hideBanner();
+      applyConsent(consent);
+    })();
+
+    // Buttons
+    document.getElementById("accept-cookies").addEventListener("click", function () {
+      setCookie("cookie_consent", "accepted", 365);
+      applyConsent("accepted");
+      hideBanner();
+    });
+
+    document.getElementById("refuse-cookies").addEventListener("click", function () {
+      setCookie("cookie_consent", "refused", 365);
+      applyConsent("refused");
+      hideBanner();
+    });
+  </script>
+
   <script>
     /**
-     * FOND DYNAMIQUE (plus visible):
-     * - opacités augmentées
-     * - glow léger
-     * - plus de barres sur desktop
+     * FOND DYNAMIQUE
      */
     const canvas = document.getElementById('growth-canvas');
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -678,11 +792,9 @@
     function draw() {
       ctx.clearRect(0, 0, W, H);
 
-      // glow
       ctx.shadowBlur = 18;
       ctx.shadowColor = "rgba(0,137,208,0.25)";
 
-      // Barres
       for (const bar of bars) {
         bar.h += (bar.targetH - bar.h) * bar.speed;
         if (Math.abs(bar.h - bar.targetH) < 1) {
@@ -695,7 +807,6 @@
         ctx.fillRect(bar.x, H - bar.h, bar.w, bar.h);
       }
 
-      // Particules
       ctx.shadowBlur = 10;
       for (const p of particles) {
         p.x += p.vx;
@@ -709,7 +820,6 @@
         ctx.fill();
       }
 
-      // Connexions (plus visibles)
       const connectionDist = isMobile() ? 150 : 190;
       ctx.shadowBlur = 0;
 
@@ -765,6 +875,13 @@
       success.style.display = 'none';
       errorBox.style.display = 'none';
 
+      // snapshot consent at submit time
+      const snap = document.getElementById("cookie_consent_snapshot");
+      if (snap && !snap.value) {
+        // if user never chose, treat as refused
+        snap.value = (getCookie("cookie_consent") || "refused");
+      }
+
       const submitBtn = form.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
       submitBtn.style.opacity = '0.85';
@@ -780,6 +897,11 @@
 
         form.style.display = 'none';
         success.style.display = 'block';
+
+        // optional: push event (only meaningful if GTM loaded)
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: "growth_form_success" });
+
       } catch (err) {
         errorBox.style.display = 'block';
       } finally {
@@ -790,4 +912,3 @@
   </script>
 </body>
 </html>
-
