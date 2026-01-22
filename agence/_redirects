@@ -26,3 +26,4 @@ https://www.stratads.agency/*   https://www.stratads.fr/:splat   301!
 
 /conditions    /conditions.html    200
 /conditions/   /conditions.html    200
+
