@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Variable page_type -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    page_type: "main"
+  });
+</script>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NCZTW7PQ');</script>
+<!-- End Google Tag Manager -->
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -86,8 +101,143 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  .cookie-banner{
+    position:fixed;
+    left:16px;
+    right:16px;
+    bottom:16px;
+    z-index:9999;
+    display:none; /* s’affiche via JS si pas de consentement */
+    gap:14px;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    border-radius:14px;
+    background:#111;
+    color:#fff;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    font-size:14px;
+    line-height:1.35;
+  }
 
-  <style>
+  .cookie-svg{
+    width:44px;
+    height:44px;
+    flex:0 0 auto;
+  }
+
+  .cookie-text{
+    margin:0;
+    flex:1 1 auto;
+    opacity:.95;
+  }
+
+  .cookie-actions{
+    display:flex;
+    gap:10px;
+    flex:0 0 auto;
+  }
+
+  .cookie-btn{
+    border:none;
+    cursor:pointer;
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    transition:transform .08s ease, opacity .2s ease;
+  }
+  .cookie-btn:active{ transform:scale(.98); }
+
+  .cookie-btn.accept{
+    background:#00c389;
+    color:#06110c;
+  }
+
+  .cookie-btn.refuse{
+    background:#2b2b2b;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  @media (max-width: 520px){
+    .cookie-banner{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .cookie-actions{
+      width:100%;
+    }
+    .cookie-btn{
+      width:100%;
+    }
+  }
+
+/* ===== SWITCH PREMIUM / GROWTH ===== */
+.top-actions{
+  position:fixed;
+  top:18px;
+  right:24px;
+  display:flex;
+  gap:12px;
+  z-index:1200;
+}
+
+/* base */
+.btn-top{
+  padding:10px 18px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:.9rem;
+  text-decoration:none;
+  transition:.25s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* PREMIUM (sur stratads.fr) -> on enlève le blanc */
+.btn-outline{
+  background: rgba(0,0,0,.22);          /* au lieu de blanc */
+  color: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+.btn-outline:hover{
+  background: rgba(0,137,208,.10);
+  border-color: rgba(0,137,208,.45);
+  transform: translateY(-1px);
+}
+
+/* GROWTH (reste bleu) */
+.btn-primary{
+  background:#0089d0;
+  color:white;
+  border:1px solid rgba(0,137,208,.6);
+  box-shadow:0 10px 25px rgba(0,137,208,.35);
+}
+
+.btn-primary:hover{
+  background:#0073b3;
+  transform:translateY(-1px);
+}
+
+/* Mobile */
+@media (max-width: 768px){
+  .top-actions{
+    top:12px;
+    right:12px;
+    gap:10px;
+  }
+  .btn-top{
+    padding:9px 14px;
+    font-size:.85rem;
+  }
+}
+
+
+
     /* RESET & VARIABLES */
     :root {
       /* Palette PREMIUM FINANCE : Deep Navy & Titanium */
@@ -939,53 +1089,6 @@
 
     .radio-group input { accent-color: var(--blue-bright); }
 
-    /* COOKIE BANNER */
-    .cookie-banner {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--blue-primary);
-      padding: 15px 25px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-      z-index: 1000;
-      max-width: 90%;
-      width: 600px;
-      animation: slideUp 0.5s ease-out;
-    }
-
-    @keyframes slideUp {
-      from { transform: translate(-50%, 100px); opacity: 0; }
-      to { transform: translate(-50%, 0); opacity: 1; }
-    }
-
-    .cookie-text {
-      color: #fff;
-      font-size: 0.85rem;
-      flex: 1;
-    }
-
-    .cookie-btn {
-      background: var(--blue-primary);
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: 0.3s;
-      white-space: nowrap;
-    }
-
-    .cookie-btn:hover { background: var(--blue-bright); }
-    .cookie-svg { width: 36px; height: 36px; flex-shrink: 0; }
 
     /* FOOTER */
     footer {
@@ -1007,10 +1110,140 @@
       .hud-corner { display: none; }
       .hero-grid { opacity: 0.22; }
     }
+    .footer-links{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+}
+
+.footer-links a{
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  transition: .25s ease;
+  position: relative;
+}
+
+.footer-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:0%;
+  height:1px;
+  background: rgba(59,130,246,.6);
+  transition:.25s ease;
+}
+
+.footer-links a:hover{
+  color:#fff;
+}
+
+.footer-links a:hover::after{
+  width:100%;
+}
+
   </style>
 </head>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookies">
+  <svg class="cookie-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="256" cy="256" r="224" fill="#E6AA68"/>
+    <path fill="#CCA05A" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32z" opacity="0.3"/>
+    <circle cx="180" cy="160" r="25" fill="#3E2723"/>
+    <circle cx="340" cy="200" r="30" fill="#3E2723"/>
+    <circle cx="260" cy="320" r="35" fill="#3E2723"/>
+    <circle cx="140" cy="300" r="20" fill="#3E2723"/>
+    <circle cx="380" cy="320" r="22" fill="#3E2723"/>
+    <circle cx="280" cy="100" r="20" fill="#3E2723"/>
+    <circle cx="100" cy="220" r="15" fill="#3E2723"/>
+    <circle cx="400" cy="120" r="18" fill="#3E2723"/>
+  </svg>
+
+  <p class="cookie-text">
+    Nous utilisons des cookies pour mesurer l’audience et améliorer votre expérience.
+    Vous pouvez accepter ou refuser.
+  </p>
+
+  <div class="cookie-actions">
+    <button id="accept-cookies" class="cookie-btn accept" type="button">Accepter</button>
+    <button id="refuse-cookies" class="cookie-btn refuse" type="button">Refuser</button>
+  </div>
+</div>
+
+<script>
+  // --- Cookie helpers ---
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = name + "=" + value + ";path=/;expires=" + d.toUTCString() + ";SameSite=Lax";
+  }
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
+  function showBanner() {
+    const banner = document.getElementById("cookie-banner");
+    if (banner) banner.style.display = "flex";
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById("cookie-banner");
+    if (banner) banner.style.display = "none";
+  }
+
+  function pushConsent(consent) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "cookie_consent",
+      consent: consent // "granted" | "denied"
+    });
+  }
+
+  // --- Init ---
+  (function initCookieBanner() {
+    const consent = getCookie("cookie_consent");
+    if (!consent) {
+      showBanner();
+      return;
+    }
+    // si déjà choisi, on ne ré-affiche pas
+    hideBanner();
+  })();
+
+  // --- Buttons ---
+  document.getElementById("accept-cookies").addEventListener("click", function () {
+    setCookie("cookie_consent", "accepted", 365);
+    pushConsent("granted");
+    hideBanner();
+  });
+
+  document.getElementById("refuse-cookies").addEventListener("click", function () {
+    setCookie("cookie_consent", "refused", 365);
+    pushConsent("denied");
+    hideBanner();
+  });
+</script>
+
 <body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCZTW7PQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="top-actions">
+  <a href="https://stratads.fr" class="btn-top btn-outline">StratAds Premium</a>
+  <a href="croissance.html" class="btn-top btn-primary">StratAds Growth</a>
+</div>
+
 
   <!-- HERO -->
   <section class="hero">
@@ -1125,7 +1358,7 @@
   <section class="section">
     <div class="container">
       <div class="section-label">Expertise</div>
-      <h2 class="heading-premium">Ingénierie d'Acquisition</h2>
+      <h2 class="heading-premium"style="text-align: center;">Ingénierie d'Acquisition</h2>
 
       <div class="grid services-grid">
         <div class="service-card">
@@ -1217,7 +1450,7 @@
   <section class="section">
     <div class="container">
       <div class="section-label">Méthodologie</div>
-      <h2 class="heading-premium" style="text-align: left;">Protocole Opérationnel</h2>
+      <h2 class="heading-premium" style="text-align: center;">Protocole Opérationnel</h2>
 
       <div class="process-row">
         <div class="process-step">
@@ -1247,18 +1480,18 @@
   <!-- MARQUEE -->
   <section class="marquee-section">
     <div class="marquee-track">
-      <div class="marquee-logo">Velaro</div>
-      <div class="marquee-logo">Synexia</div>
-      <div class="marquee-logo">Alture</div>
-      <div class="marquee-logo">Novaluxe</div>
-      <div class="marquee-logo">Axiom Data</div>
-      <div class="marquee-logo">Helios Labs</div>
-      <div class="marquee-logo">Velaro</div>
-      <div class="marquee-logo">Synexia</div>
-      <div class="marquee-logo">Alture</div>
-      <div class="marquee-logo">Novaluxe</div>
-      <div class="marquee-logo">Axiom Data</div>
-      <div class="marquee-logo">Helios Labs</div>
+      <div class="marquee-logo">Google Ads</div>
+      <div class="marquee-logo">Meta Business Manager</div>
+      <div class="marquee-logo">Looker Studio</div>
+      <div class="marquee-logo">Google Tag Manager</div>
+      <div class="marquee-logo">Google Ads</div>
+      <div class="marquee-logo">Meta Business Manager</div>
+      <div class="marquee-logo">Looker Studio</div>
+      <div class="marquee-logo">Google Tag Manager</div>
+      <div class="marquee-logo">Google Ads</div>
+      <div class="marquee-logo">Meta Business Manager</div>
+      <div class="marquee-logo">Looker Studio</div>
+      <div class="marquee-logo">Google Tag Manager</div>
     </div>
   </section>
 
@@ -1272,7 +1505,7 @@
 
       <div class="faq-container">
         <div class="faq-item"><details><summary>Que fait StratAds ?</summary><div class="faq-answer">Nous pilotons et optimisons vos systèmes d’acquisition payante.</div></details></div>
-        <div class="faq-item"><details><summary>Êtes-vous une agence marketing ?</summary><div class="faq-answer">Non. Nous sommes un cabinet 100% acquisition.</div></details></div>
+        <div class="faq-item"><details><summary>Êtes-vous une agence marketing ?</summary><div class="faq-answer">Non. StratAds accompagne les entreprises souhaitant externaliser leur pôle d’acquisition digitale afin de structurer, piloter et accélérer durablement leur croissance.</div></details></div>
         <div class="faq-item"><details><summary>Proposez-vous des services créatifs ?</summary><div class="faq-answer">Non. Nous nous focalisons uniquement sur la performance et la data.</div></details></div>
         <div class="faq-item"><details><summary>Avec quel type d’entreprise travaillez-vous ?</summary><div class="faq-answer">Avec des entreprises ayant un produit validé et un budget d’acquisition structuré.</div></details></div>
         <div class="faq-item"><details><summary>Quel budget faut-il pour travailler avec vous ?</summary><div class="faq-answer">Un budget d’acquisition régulier est nécessaire pour exploiter notre méthodologie.</div></details></div>
@@ -1284,11 +1517,11 @@
             <summary>Quels outils utilisez-vous ?</summary>
             <div class="faq-answer">
               Principalement Meta Ads, Google Ads, des outils de tracking & analytics avancés.
-              Nous mettons également en place des landing pages orientées conversion lorsque cela est nécessaire à la performance.
+              Nous optimisons également des landing pages orientées performance.
             </div>
           </details>
         </div>
-        <div class="faq-item"><details><summary>Que n’incluez-vous jamais dans vos services ?</summary><div class="faq-answer">Aucune créa, aucun tunnel. Acquisition only.</div></details></div>
+        <div class="faq-item"><details><summary>Que n’incluez-vous jamais dans vos services ?</summary><div class="faq-answer">Aucune création.</div></details></div>
       </div>
     </div>
   </section>
@@ -1307,65 +1540,110 @@
         <h2 class="heading-premium">Démarrer l'Analyse</h2>
         <p class="sub-heading">Discutons de vos objectifs d'acquisition et de vos enjeux de croissance.</p>
 
-        <!-- ✅ Form Netlify (visible) -->
-        <form class="contact-form"
-              name="contact"
-              method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              action="/success"
-              enctype="application/x-www-form-urlencoded">
+      <!-- FORMULAIRE PREMIUM – NETLIFY -->
+<form
+  class="contact-form"
+  name="stratads-premium"
+  method="POST"
+  netlify
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  action="/success"
+  enctype="application/x-www-form-urlencoded"
+>
 
-          <!-- ✅ Très important : form-name -->
-          <input type="hidden" name="form-name" value="contact">
+  <!-- Champs obligatoires Netlify -->
+  <input type="hidden" name="form-name" value="stratads-premium" />
+  <input type="hidden" name="source" value="premium" />
+  <input type="hidden" name="page_type" value="premium" />
 
-          <!-- Honeypot -->
-          <p style="display:none;">
-            <label>Ne pas remplir :
-              <input name="bot-field" autocomplete="off">
-            </label>
-          </p>
+  <!-- Honeypot -->
+  <p style="display:none;">
+    <label>Ne pas remplir :
+      <input name="bot-field" autocomplete="off" />
+    </label>
+  </p>
 
-          <!-- Groupe 1 -->
-          <div class="form-row">
-            <div class="input-group">
-              <input type="text" name="nom" class="input-premium" placeholder="Nom Complet" required autocomplete="name">
-            </div>
+  <!-- GROUPE 1 -->
+  <div class="form-row">
+    <div class="input-group">
+      <input
+        type="text"
+        name="nom"
+        class="input-premium"
+        placeholder="Nom complet"
+        autocomplete="name"
+        required
+      />
+    </div>
 
-            <!-- ✅ Société : name propre + required -->
-            <div class="input-group">
-              <input type="text" id="societe" name="societe" class="input-premium" placeholder="Société" required autocomplete="organization">
-            </div>
+    <div class="input-group">
+      <input
+        type="text"
+        id="societe"
+        name="societe"
+        class="input-premium"
+        placeholder="Société"
+        autocomplete="organization"
+        required
+      />
+    </div>
 
-            <div class="input-group">
-              <input type="text" name="chiffre_affaire" class="input-premium" placeholder="Chiffre d'affaire de la dernière année" required>
-            </div>
-          </div>
+    <div class="input-group">
+      <input
+        type="text"
+        name="chiffre_affaire"
+        class="input-premium"
+        placeholder="Chiffre d'affaires annuel"
+        required
+      />
+    </div>
+  </div>
 
-          <!-- Groupe 2 -->
-          <div class="form-row">
-            <div class="input-group">
-              <input type="email" name="email" class="input-premium" placeholder="Email Professionnel" required autocomplete="email">
-            </div>
+  <!-- GROUPE 2 -->
+  <div class="form-row">
+    <div class="input-group">
+      <input
+        type="email"
+        name="email"
+        class="input-premium"
+        placeholder="Email professionnel"
+        autocomplete="email"
+        required
+      />
+    </div>
 
-            <div class="input-group">
-              <select name="budget" class="input-premium" required>
-                <option value="" disabled selected>Budget publicitaire /mois</option>
-                <option value="5k-10k">5 000€ - 10 000€</option>
-                <option value="10k-30k">10 000€ - 30 000€</option>
-                <option value="30k-100k">30 000€ - 100 000€</option>
-                <option value=">100k">Au-delà de 100 000€</option>
-              </select>
+    <div class="input-group">
+      <select name="budget" class="input-premium" required>
+        <option value="" disabled selected>Budget publicitaire / mois</option>
+        <option value="5k-10k">5 000€ – 10 000€</option>
+        <option value="10k-30k">10 000€ – 30 000€</option>
+        <option value="30k-100k">30 000€ – 100 000€</option>
+        <option value="100k+">Plus de 100 000€</option>
+      </select>
 
-              <select name="collaboration" class="input-premium" required>
-                <option value="" disabled selected>Type de Collaboration</option>
-                <option value="Pilotage externalise">Pilotage externalisé (Mensuel)</option>
-                <option value="Structuration mise a niveau">Structuration & mise à niveau</option>
-                <option value="Audit recommandations">Audit & Recommandations</option>
-                <option value="Scaling international">Scaling international</option>
-              </select>
-            </div>
-          </div>
+      <select name="collaboration" class="input-premium" required>
+        <option value="" disabled selected>Type de collaboration</option>
+        <option value="pilotage">Pilotage externalisé</option>
+        <option value="structuration">Structuration & mise à niveau</option>
+        <option value="audit">Audit & recommandations</option>
+        <option value="scaling">Scaling international</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ACTION -->
+  <div class="form-actions">
+    <button
+      type="submit"
+      class="btn btn-premium"
+      data-track="premium_form_submit"
+    >
+      Demander une analyse premium
+    </button>
+  </div>
+
+</form>
 
           <!-- Radio -->
           <div style="margin-bottom: 30px;">
@@ -1395,35 +1673,24 @@
       <span style="color: #64748B">&copy; 2024 STRATADS.</span>
       <span style="color: var(--blue-primary); font-weight: 600;">PERFORMANCE ACQUISITION.</span>
     </div>
+<div class="footer-links">
+  <a href="conditions-stratads-premium.html">
+    Conditions générales
+  </a>
+  <span>•</span>
+  <a href="offre-parrainage.html">
+    🎁 Offre de parrainage
+  </a>
+</div>
+
   </footer>
 
-  <!-- COOKIE BANNER -->
-  <div id="cookie-banner" class="cookie-banner">
-    <svg class="cookie-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="256" cy="256" r="224" fill="#E6AA68"/>
-      <path fill="#CCA05A" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32z" opacity="0.3"/>
-      <circle cx="180" cy="160" r="25" fill="#3E2723"/>
-      <circle cx="340" cy="200" r="30" fill="#3E2723"/>
-      <circle cx="260" cy="320" r="35" fill="#3E2723"/>
-      <circle cx="140" cy="300" r="20" fill="#3E2723"/>
-      <circle cx="380" cy="320" r="22" fill="#3E2723"/>
-      <circle cx="280" cy="100" r="20" fill="#3E2723"/>
-      <circle cx="100" cy="220" r="15" fill="#3E2723"/>
-      <circle cx="400" cy="120" r="18" fill="#3E2723"/>
-      <path d="M256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 416c-105.9 0-192-86.1-192-192S150.1 64 256 64s192 86.1 192 192-86.1 192-192 192z" fill="#000" opacity="0.1"/>
-    </svg>
-    <p class="cookie-text">
-      Nous ne récoltons pas de cookies. Les seuls cookies que nous avons sont ceux laissés par les clients.
-    </p>
-    <button class="cookie-btn" onclick="document.getElementById('cookie-banner').style.display='none'">
-      Compris
-    </button>
-  </div>
 
   <!-- ✅✅ NETLIFY BACKUP FORM (HIDDEN) — DOIT ÊTRE DANS LE BODY, PAS DANS LE SCRIPT -->
   <!-- Ce bloc garantit que Netlify “connait” tous les champs et donc que SOCIETE remonte toujours -->
-  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="hidden" name="form-name" value="contact">
+  <form name="stratads-premium" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="stratads-premium">
+    <input type="hidden" name="source" value="premium">
     <p hidden>
       <label>Ne pas remplir : <input name="bot-field"></label>
     </p>
