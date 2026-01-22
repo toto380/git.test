@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programme de parrainage | StratAds Premium</title>
+
+  <meta name="description" content="Programme de parrainage StratAds Premium : recommandez StratAds et bénéficiez de remises sur votre accompagnement. Votre filleul profite aussi d’un avantage." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon onglet -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+
+  <!-- Fonts (comme Premium) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg-deep:#020408;
+      --bg-panel:#0B0F17;
+
+      --blue-primary:#1E40AF;
+      --blue-bright:#3B82F6;
+      --blue-glow:rgba(59,130,246,.30);
+
+      --grey-border:#1E293B;
+      --grey-text:#94A3B8;
+      --grey-silver:#F1F5F9;
+
+      --gradient-title:linear-gradient(135deg,#FFFFFF 0%,#CBD5E1 100%);
+
+      --font-heading:'Cinzel', serif;
+      --font-body:'Montserrat', sans-serif;
+
+      --container:1100px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg-deep);
+      color:var(--grey-silver);
+      font-family:var(--font-body);
+      line-height:1.7;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--container);margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+    /* Top minimal */
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(2,4,8,.80);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 0;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      min-width: 220px;
+    }
+    .brand-name{
+      display:flex;flex-direction:column;line-height:1.1;
+    }
+    .brand-name strong{
+      font-family:var(--font-heading);
+      letter-spacing:.8px;
+      font-weight:600;
+    }
+    .brand-name span{
+  color: var(--blue-bright);
+  font-size:.82rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+    
+
+    /* ✅ Favicon + glass overlay */
+    .brand-mark{
+      position: relative;
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      overflow:hidden;
+      display:inline-block;
+
+      border:1px solid rgba(59,130,246,.25);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.05) inset,
+        0 0 25px rgba(59,130,246,.14);
+
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      flex: 0 0 auto;
+    }
+    .brand-mark__img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .brand-mark::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg,
+          rgba(255,255,255,.22) 0%,
+          rgba(255,255,255,.08) 28%,
+          rgba(255,255,255,0) 55%),
+        radial-gradient(120% 90% at 30% 20%,
+          rgba(59,130,246,.18) 0%,
+          rgba(59,130,246,0) 60%);
+      mix-blend-mode: screen;
+      opacity: .9;
+    }
+    .brand-mark::before{
+      content:"";
+      position:absolute;
+      left:10%;
+      top:10%;
+      width:70%;
+      height:35%;
+      border-radius:999px;
+      background: rgba(255,255,255,.14);
+      filter: blur(1px);
+      pointer-events:none;
+      opacity:.7;
+    }
+
+    .nav-actions{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.9rem;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      transition:.25s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .btn:hover{transform:translateY(-0.5px);border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.08)}
+    .btn-primary{
+      border-color:rgba(59,130,246,.45);
+      background:rgba(59, 131, 246, 0.521);
+        box-shadow:
+    0 6px 14px rgba(59,130,246,.25),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:90px 0 40px;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;inset:-200px -100px auto -100px;
+      height:520px;
+      background:radial-gradient(circle at 50% 30%, rgba(59,130,246,.20), transparent 55%);
+      pointer-events:none;
+      z-index:0;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(to bottom, rgba(2,4,8,0) 0%, rgba(2,4,8,.92) 80%),
+        radial-gradient(900px 400px at 50% 0%, rgba(59,130,246,.10), transparent 70%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .kicker{
+      display:inline-block;
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      color:var(--blue-bright);
+      margin-bottom:18px;
+      padding:4px 12px;
+      border:1px solid rgba(59,130,246,.18);
+      background:rgba(59,130,246,.05);
+      border-radius:2px;
+    }
+    h1{
+      font-family:var(--font-heading);
+      font-weight:600;
+      letter-spacing:.6px;
+      font-size:clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom:12px;
+      background:var(--gradient-title);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .lead{
+      color:var(--grey-text);
+      max-width:760px;
+      font-size:1.05rem;
+      font-weight:300;
+    }
+
+    .hero-cta{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:26px;
+    }
+
+    section{padding:60px 0}
+    .panel{
+      background:rgba(11,15,23,.70);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 20px 60px rgba(0,0,0,.55);
+      border-radius:2px;
+      overflow:hidden;
+    }
+    .panel-inner{padding:34px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+    }
+
+    .card{
+      grid-column: span 6;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      padding:26px;
+      border-radius:2px;
+      transition:.25s ease;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(59,130,246,.25);
+      box-shadow:0 18px 50px rgba(0,0,0,.40);
+    }
+    .card-label{
+      font-size:.7rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--grey-text);
+      margin-bottom:10px;
+    }
+    .card-title{
+      font-family:var(--font-heading);
+      color:#fff;
+      font-size:1.2rem;
+      margin-bottom:8px;
+      letter-spacing:.4px;
+    }
+    .card p{color:var(--grey-text);font-weight:300}
+
+    .steps{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+    }
+    .step{
+      grid-column: span 4;
+      border-left:1px solid rgba(255,255,255,.08);
+      padding:18px;
+      background:rgba(0,0,0,.10);
+    }
+    .step strong{
+      display:block;
+      color:#fff;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      font-size:.85rem;
+      margin-bottom:8px;
+    }
+    .step span{
+      color:var(--grey-text);
+      font-weight:300;
+      font-size:.95rem;
+    }
+
+    .tiers{
+      margin-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .tier{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap:18px;
+      padding:18px 0;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      align-items:center;
+    }
+    .tier h3{
+      font-family:var(--font-heading);
+      font-weight:600;
+      font-size:1.05rem;
+      color:#fff;
+      letter-spacing:.4px;
+      margin:0 0 6px;
+    }
+    .tier p{margin:0;color:var(--grey-text);font-weight:300}
+    .pill{
+      justify-self:end;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border:1px solid rgba(59,130,246,.25);
+      background:rgba(59,130,246,.08);
+      border-radius:999px;
+      color:#fff;
+      font-weight:600;
+      letter-spacing:.4px;
+      white-space:nowrap;
+    }
+    .pill b{color:var(--blue-bright)}
+
+    .rules{
+      margin-top:18px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:var(--grey-text);
+      font-weight:300;
+    }
+    .rules ul{margin:12px 0 0;padding-left:18px}
+    .rules li{margin:8px 0}
+
+    /* Form */
+    .form{
+      margin-top:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      padding:26px;
+      border-radius:2px;
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    .form-group{grid-column: span 6}
+    label{
+      display:block;
+      font-size:.72rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--grey-text);
+      margin-bottom:8px;
+      font-weight:600;
+    }
+    input, textarea, select{
+      width:100%;
+      padding:14px 14px;
+      border-radius:2px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.20);
+      color:#fff;
+      font-family:var(--font-body);
+      outline:none;
+      transition:.2s ease;
+    }
+    textarea{min-height:120px;resize:vertical}
+    input:focus, textarea:focus, select:focus{
+      border-color:rgba(59,130,246,.35);
+      box-shadow:0 0 0 4px rgba(59,130,246,.10);
+    }
+    .form-actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .small-note{margin-top:10px;color:rgba(255,255,255,.55);font-size:.95rem}
+
+    footer{
+      padding:44px 0;
+      border-top:1px solid rgba(255,255,255,.06);
+      background:#000;
+      color:rgba(255,255,255,.35);
+      text-align:center;
+      font-size:.85rem;
+    }
+
+    @media (max-width: 900px){
+      .brand{min-width:auto}
+      .card{grid-column: span 12}
+      .step{grid-column: span 12;border-left:none;border-top:1px solid rgba(255,255,255,.08)}
+      .tier{grid-template-columns:1fr}
+      .pill{justify-self:start}
+      .panel-inner{padding:26px}
+      .form-group{grid-column: span 12}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="https://stratads.fr/" aria-label="Retour StratAds Premium">
+        <span class="brand-mark" aria-hidden="true">
+          <img
+            src="/favicon.png"
+            alt="Logo StratAds"
+            class="brand-mark__img"
+            onerror="this.onerror=null; this.src='favicon.png';"
+          />
+        </span>
+
+        <div class="brand-name">
+          <strong>STRATADS</strong>
+          <span>Premium</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a class="btn" href="https://stratads.fr/">Retour site</a>
+        <a class="btn btn-primary" href="https://stratads.fr/#contact">Devenir client</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container" style="position:relative;z-index:1;">
+        <div class="kicker">Programme de parrainage</div>
+        <h1>Recommandez StratAds. Réduisez vos factures.</h1>
+        <p class="lead">
+          Un programme simple et transparent : si vous nous présentez un client qui devient actif,
+          vous obtenez une remise sur votre accompagnement. Votre filleul profite également d’un avantage
+          sur son premier mois (packs 3 mois minimum).
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#declarer">Déclarer un parrainage</a>
+          <a class="btn" href="#paliers">Découvrir les paliers</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="grid">
+              <div class="card">
+                <div class="card-label">Pour le parrain</div>
+                <div class="card-title">Vous êtes récompensé sur vos factures</div>
+                <p>
+                  Chaque nouveau client apporté déclenche une remise sur votre accompagnement Premium,
+                  selon le palier atteint. Objectif : récompenser la confiance et la recommandation.
+                </p>
+              </div>
+
+              <div class="card">
+                <div class="card-label">Pour le filleul</div>
+                <div class="card-title">Un avantage immédiat dès l’entrée</div>
+                <p>
+                  Le nouveau client bénéficie de <b>–5%</b> sur son premier mois, à condition de souscrire
+                  à un pack <b>3 mois minimum</b> (comme tous nos packs).
+                </p>
+              </div>
+            </div>
+
+            <div class="steps">
+              <div class="step">
+                <strong>1. Recommandez</strong>
+                <span>Vous mettez StratAds en relation avec un contact qualifié.</span>
+              </div>
+              <div class="step">
+                <strong>2. Signature</strong>
+                <span>Le "filleul" souscrit à un pack Premium (3 mois minimum).</span>
+              </div>
+              <div class="step">
+                <strong>3. Remise</strong>
+                <span>Votre remise s’applique dès la première facturation.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="paliers">
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="kicker">Paliers</div>
+            <h2 style="font-family:var(--font-heading);letter-spacing:.4px;margin-top:6px;">
+              Les remises côté parrain
+            </h2>
+            <p class="lead" style="max-width:760px;margin-top:10px;">
+              Les remises ci-dessous s’appliquent au parrain dès qu’un client recommandé devient actif.
+            </p>
+
+            <div class="tiers">
+              <div class="tier">
+                <div>
+                  <h3>1er client recommandé</h3>
+                  <p>Remise immédiate sur votre accompagnement.</p>
+                </div>
+                <div class="pill"><b>–7%</b> pendant <b>2 mois</b></div>
+              </div>
+
+              <div class="tier">
+                <div>
+                  <h3>2e client recommandé</h3>
+                  <p>Avantage prolongé pour récompenser la régularité.</p>
+                </div>
+                <div class="pill"><b>–10%</b> pendant <b>4 mois</b></div>
+              </div>
+
+              <div class="tier">
+                <div>
+                  <h3>3e client recommandé</h3>
+                  <p>Statut VIP : fidélisation long terme et priorité maximale.</p>
+                </div>
+                <div class="pill"><b>–15%</b> pendant <b>12 mois</b></div>
+              </div>
+            </div>
+
+            <div class="tiers" style="margin-top:26px;">
+              <div class="tier" style="border-bottom:none;">
+                <div>
+                  <h3>Avantage filleul</h3>
+                  <p>Appliqué sur le premier mois uniquement.</p>
+                </div>
+                <div class="pill"><b>–5%</b> sur <b>1er mois</b></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="conditions">
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="kicker">Conditions</div>
+            <h2 style="font-family:var(--font-heading);letter-spacing:.4px;margin-top:6px;">
+              Règles du programme
+            </h2>
+
+            <div class="rules">
+              <p>
+                Pour garantir un programme clair et équitable, voici les conditions d’application :
+              </p>
+              <ul>
+                <li>Le parrainage est validé uniquement si le client recommandé <b>signe</b> et devient <b>client actif</b>.</li>
+                <li>Les remises s’appliquent à partir de la <b>facturation suivante</b> après validation du parrainage.</li>
+                <li>Le filleul bénéficie de <b>–5%</b> sur le <b>premier mois</b> uniquement, pour un pack <b>3 mois minimum</b>.</li>
+                <li>Les offres ne sont pas cumulables avec d’autres remises ou promotions.</li>
+                <li>Le programme est réservé aux accompagnements <b>Premium</b> (packs 3 mois minimum).</li>
+                <li>StratAds se réserve le droit de modifier ou suspendre le programme à tout moment.</li>
+              </ul>
+              <p style="margin-top:14px;">
+                Pour déclarer un parrainage, utilisez le formulaire ci-dessous.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ FORMULAIRE : Déclaration de parrainage (Premium) -->
+    <section id="declarer">
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="kicker">Déclaration</div>
+            <h2 style="font-family:var(--font-heading);letter-spacing:.4px;margin-top:6px;">
+              Déclarer un parrainage Premium
+            </h2>
+            <p class="lead" style="max-width:760px;margin-top:10px;">
+              Ce formulaire est réservé au <b>programme de parrainage StratAds Premium</b>.
+              Nous validons le parrainage uniquement après signature du filleul.
+            </p>
+
+            <div class="form">
+              <!-- NETLIFY FORM: PARRAINAGE PREMIUM -->
+              <form
+                name="stratads-parrainage-premium"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                action="/success?src=parrainage-premium"
+                enctype="application/x-www-form-urlencoded"
+              >
+                <!-- Obligatoire Netlify -->
+                <input type="hidden" name="form-name" value="stratads-parrainage-premium" />
+
+                <!-- ✅ Pour identifier clairement l'email à la réception -->
+                <input type="hidden" name="subject" value="📩 Déclaration Parrainage — StratAds Premium" />
+                <input type="hidden" name="form_type" value="parrainage_premium" />
+                <input type="hidden" name="page_type" value="premium" />
+                <input type="hidden" name="source" value="parrainage-premium" />
+
+                <!-- Honeypot anti-spam -->
+                <p style="display:none;">
+                  <label>Ne pas remplir : <input name="bot-field" /></label>
+                </p>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="parrain_email">Email du parrain (Client StratAds Premium)</label>
+                    <input id="parrain_email" name="parrain_email" type="email" required autocomplete="email" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="parrain_societe">Société du parrain (Client StratAds Premium)</label>
+                    <input id="parrain_societe" name="parrain_societe" type="text" required autocomplete="organization" />
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="filleul_nom">Nom du filleul</label>
+                    <input id="filleul_nom" name="filleul_nom" type="text" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filleul_email">Email du filleul</label>
+                    <input id="filleul_email" name="filleul_email" type="email" required autocomplete="email" />
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="filleul_societe">Société du filleul</label>
+                    <input id="filleul_societe" name="filleul_societe" type="text" autocomplete="organization" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filleul_tel">Téléphone (optionnel)</label>
+                    <input id="filleul_tel" name="filleul_tel" type="tel" inputmode="tel" autocomplete="tel" />
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group" style="grid-column: span 12;">
+                    <label for="note">Contexte (optionnel)</label>
+                    <textarea id="note" name="note" placeholder="Besoin, budget estimé, timing, contexte, etc."></textarea>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary" style="width:100%;">
+                    Envoyer la déclaration
+                  </button>
+                </div>
+
+                <div class="small-note">
+                   Réservé au programme Premium. Validation après signature du filleul. Offres non cumulables.
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      © StratAds Premium — Programme de parrainage (page non indexée).
+    </div>
+  </footer>
+</body>
+</html>
