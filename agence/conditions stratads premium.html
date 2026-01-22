@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conditions générales | StratAds</title>
+  <meta name="description" content="Conditions générales d’utilisation et de vente – StratAds (abonnements et prestations ponctuelles)." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+
+  <!-- Fonts (style stratads.fr) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg-deep:#020408;
+      --bg-panel:#0B0F17;
+
+      --blue-primary:#1E40AF;
+      --blue-bright:#3B82F6;
+      --blue-glow:rgba(59,130,246,.30);
+
+      --grey-border:#1E293B;
+      --grey-text:#94A3B8;
+      --grey-silver:#F1F5F9;
+
+      --gradient-title:linear-gradient(135deg,#FFFFFF 0%,#CBD5E1 100%);
+
+      --font-heading:'Cinzel', serif;
+      --font-body:'Montserrat', sans-serif;
+
+      --container:1100px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg-deep);
+      color:var(--grey-silver);
+      font-family:var(--font-body);
+      line-height:1.7;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--container);margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(2,4,8,.80);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 0;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      min-width: 220px;
+    }
+    .brand-name{
+      display:flex;flex-direction:column;line-height:1.1;
+    }
+    .brand-name strong{
+      font-family:var(--font-heading);
+      letter-spacing:.8px;
+      font-weight:600;
+    }
+    .brand-name span{
+      color:var(--blue-bright); /* ✅ Premium/StratAds en bleu */
+      font-size:.82rem;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      text-shadow: 0 0 12px rgba(59,130,246,.25);
+    }
+
+    /* ✅ Favicon + glass */
+    .brand-mark{
+      position: relative;
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      overflow:hidden;
+      display:inline-block;
+
+      border:1px solid rgba(59,130,246,.25);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.05) inset,
+        0 0 25px rgba(59,130,246,.14);
+
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      flex: 0 0 auto;
+    }
+    .brand-mark__img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .brand-mark::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg,
+          rgba(255,255,255,.22) 0%,
+          rgba(255,255,255,.08) 28%,
+          rgba(255,255,255,0) 55%),
+        radial-gradient(120% 90% at 30% 20%,
+          rgba(59,130,246,.18) 0%,
+          rgba(59,130,246,0) 60%);
+      mix-blend-mode: screen;
+      opacity: .9;
+    }
+    .brand-mark::before{
+      content:"";
+      position:absolute;
+      left:10%;
+      top:10%;
+      width:70%;
+      height:35%;
+      border-radius:999px;
+      background: rgba(255,255,255,.14);
+      filter: blur(1px);
+      pointer-events:none;
+      opacity:.7;
+    }
+
+    .nav-actions{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:.9rem;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      transition:.25s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(59,130,246,.35);
+      background:rgba(59,130,246,.08);
+    }
+    .btn-primary{
+      background: linear-gradient(180deg, rgba(59,130,246,.22), rgba(59,130,246,.12));
+      border: 1px solid rgba(59,130,246,.35);
+      box-shadow:
+        0 6px 14px rgba(59,130,246,.25),
+        inset 0 1px 0 rgba(255,255,255,.15);
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:90px 0 40px;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;inset:-200px -100px auto -100px;
+      height:520px;
+      background:radial-gradient(circle at 50% 30%, rgba(59,130,246,.20), transparent 55%);
+      pointer-events:none;
+      z-index:0;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(to bottom, rgba(2,4,8,0) 0%, rgba(2,4,8,.92) 80%),
+        radial-gradient(900px 400px at 50% 0%, rgba(59,130,246,.10), transparent 70%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .kicker{
+      display:inline-block;
+      font-size:.7rem;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      color:var(--blue-bright);
+      margin-bottom:18px;
+      padding:4px 12px;
+      border:1px solid rgba(59,130,246,.18);
+      background:rgba(59,130,246,.05);
+      border-radius:2px;
+    }
+    h1{
+      font-family:var(--font-heading);
+      font-weight:600;
+      letter-spacing:.6px;
+      font-size:clamp(2.2rem, 5vw, 3.2rem);
+      margin-bottom:12px;
+      background:var(--gradient-title);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .lead{
+      color:var(--grey-text);
+      max-width:820px;
+      font-size:1.05rem;
+      font-weight:300;
+    }
+
+    section{padding:60px 0}
+
+    .panel{
+      background:rgba(11,15,23,.70);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 20px 60px rgba(0,0,0,.55);
+      border-radius:2px;
+      overflow:hidden;
+    }
+    .panel-inner{padding:34px}
+
+    /* Content formatting */
+    .content h2{
+      font-family:var(--font-heading);
+      font-weight:600;
+      letter-spacing:.4px;
+      margin:22px 0 10px;
+      font-size:1.25rem;
+      color:#fff;
+    }
+    .content p{
+      color:var(--grey-text);
+      font-weight:300;
+      margin:0 0 12px;
+    }
+    .content ul{
+      margin:8px 0 16px;
+      padding-left:18px;
+      color:var(--grey-text);
+    }
+    .content li{margin:8px 0}
+
+    .notice{
+      margin-top:16px;
+      padding:16px 18px;
+      border:1px solid rgba(59,130,246,.18);
+      background:rgba(59,130,246,.06);
+      color:rgba(255,255,255,.75);
+    }
+
+    footer{
+      padding:44px 0 80px; /* ✅ un peu plus bas pour mobile */
+      border-top:1px solid rgba(255,255,255,.06);
+      background:#000;
+      color:rgba(255,255,255,.35);
+      text-align:center;
+      font-size:.85rem;
+    }
+
+    @media (max-width: 900px){
+      .brand{min-width:auto}
+      .panel-inner{padding:26px}
+      .nav-actions{gap:8px}
+      .btn{padding:11px 14px;font-size:.85rem}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="https://stratads.fr/" aria-label="Retour StratAds">
+        <span class="brand-mark" aria-hidden="true">
+          <img
+            src="/favicon.png"
+            alt="Logo StratAds"
+            class="brand-mark__img"
+            onerror="this.onerror=null; this.src='favicon.png';"
+          />
+        </span>
+
+        <div class="brand-name">
+          <strong>STRATADS</strong>
+          <span>Conditions</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a class="btn" href="https://stratads.fr/">Retour site</a>
+        <a class="btn btn-primary" href="https://stratads.fr/#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container" style="position:relative;z-index:1;">
+        <div class="kicker">Conditions générales</div>
+        <h1>Conditions d’utilisation & de vente</h1>
+        <p class="lead">
+          Les présentes conditions encadrent l’ensemble des prestations proposées par StratAds.
+          Toute souscription implique l’acceptation pleine et entière des règles ci-dessous.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner content">
+
+            <h2>1. Objet</h2>
+            <p>
+              StratAds propose des services d’accompagnement, de conseil et de prestations opérationnelles
+              destinés aux professionnels. Les prestations peuvent prendre la forme d’un abonnement
+              ou de services ponctuels facturés à l’unité.
+            </p>
+
+            <h2>2. Abonnements (durée & résiliation)</h2>
+            <p>
+              Toute souscription à un abonnement implique une durée minimale d’engagement de
+              <strong>trois (3) mois</strong>.
+            </p>
+            <p>
+              À titre exceptionnel, <strong>le premier abonnement</strong> peut être résilié à l’issue du
+              <strong>premier (1er) mois</strong>. Passé ce délai, l’abonnement se poursuit jusqu’à la fin
+              de la période d’engagement en cours.
+            </p>
+            <p>
+              Toute période entamée est due dans son intégralité. Aucun remboursement n’est effectué
+              pour une période commencée.
+            </p>
+
+            <div class="notice">
+              <strong>Note :</strong> la résiliation du premier abonnement après 1 mois est une mesure de flexibilité
+              applicable une seule fois. Les renouvellements et abonnements suivants restent soumis à
+              l’engagement minimum de 3 mois.
+            </div>
+
+            <h2>3. Prestations & obligations</h2>
+            <p>
+              StratAds s’engage à fournir les prestations avec sérieux et professionnalisme.
+              Le client s’engage à fournir les éléments nécessaires au bon déroulement de la mission
+              (accès, informations, contenus, validations).
+            </p>
+            <p>
+              StratAds est tenu à une <strong>obligation de moyens</strong> et non de résultats.
+              Aucune garantie chiffrée ne peut être exigée.
+            </p>
+
+            <h2>4. Services ponctuels (facturation ferme)</h2>
+            <p>
+              Les prestations ponctuelles (audit, conseil, intervention spécifique, prestation unique)
+              sont facturées à l’unité.
+            </p>
+            <p>
+              Toute prestation commandée, commencée ou livrée est considérée comme due et ne peut faire l’objet
+              d’aucun remboursement, annulation ou retour en arrière.
+            </p>
+
+            <h2>5. Paiement</h2>
+            <p>
+              Les paiements sont effectués selon les modalités convenues lors de la commande.
+              En cas de non-paiement ou de retard, StratAds se réserve le droit de suspendre immédiatement
+              les prestations en cours jusqu’à régularisation.
+            </p>
+
+            <h2>6. Responsabilité</h2>
+            <p>
+              StratAds ne pourra être tenu responsable des résultats commerciaux, financiers ou marketing
+              obtenus par le client. Le client reste seul responsable de ses offres, de ses décisions et de leur conformité.
+            </p>
+
+            <h2>7. Modification des conditions</h2>
+            <p>
+              StratAds se réserve le droit de modifier les présentes conditions à tout moment.
+              Les conditions applicables sont celles en vigueur à la date de souscription.
+            </p>
+
+            <h2>8. Droit applicable</h2>
+            <p>
+              Les présentes conditions sont régies par le droit français.
+              Tout litige relève de la compétence des juridictions françaises.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © StratAds — Conditions générales (page non indexée).
+    </div>
+  </footer>
+</body>
+</html>
