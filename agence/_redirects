@@ -17,7 +17,9 @@ http://www.stratads.agency/*    https://www.stratads.fr/:splat   301!
 https://stratads.agency/*       https://www.stratads.fr/:splat   301!
 https://www.stratads.agency/*   https://www.stratads.fr/:splat   301!
 
-# Pages internes (clean URLs)
-/growth        /agence/growth.html                                301
-/parrainage    /agence/Offre%20de%20parrainage.html               301
-/conditions    /agence/conditions%20stratads%20premium.html        301
+# =========================
+# Pages internes (rewrites)
+# =========================
+/growth        /growth.html                          200
+/parrainage    /Offre%20de%20parrainage.html         200
+/conditions    /conditions%20stratads%20premium.html 200
