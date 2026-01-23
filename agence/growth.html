@@ -1,943 +1,577 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- SEO & Indexation -->
   <title>StratAds Growth | Acquisition Digitale & Croissance Structurée</title>
-  <meta name="description" content="Propulsez votre activité avec StratAds Growth. Une solution d'acquisition standardisée et performante pour entrepreneurs, indépendants et TPE." />
-  <meta name="robots" content="index, follow" />
-
-  <!-- FAVICON -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="favicon.png" />
+  <meta name="description" content="Développez votre activité avec une stratégie d'acquisition optimisée. Leads qualifiés et croissance prévisible pour entrepreneurs et PME.">
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- =========================================================
-       ✅ DATA LAYER (AVANT TOUT) + CONSENT MODE DEFAULT DENIED
-       - On démarre "denied" par défaut (RGPD-friendly)
-       - On pousse page_type tout de suite
-     ========================================================= -->
+  <!-- Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
-    window.dataLayer = window.dataLayer || [];
-
-    // page_type distinct (utile GA4/GTM/Netlify)
-    window.dataLayer.push({ page_type: "growth" });
-
-    // Consent default (avant tout tracking)
-    window.dataLayer.push({
-      event: "default_consent",
-      consent: "denied"
-    });
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              dark: '#0a0c10',
+              card: '#161922',
+              accent: '#3b82f6',
+              border: 'rgba(255, 255, 255, 0.08)',
+            }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
   </script>
 
   <style>
-    :root{
-      --brand-blue:#0089d0;
-      --brand-blue-deep:#005f91;
-      --brand-dark:#111827;
-      --text-main:#374151;
-      --text-muted:#6b7280;
-      --bg-light:#f9fafb;
-      --white:#ffffff;
-      --border:#e5e7eb;
+    body { background-color: #0a0c10; color: #e2e8f0; overflow-x: hidden; }
 
-      --radius-lg:24px;
-      --radius-md:12px;
-      --shadow: 0 25px 50px -12px rgba(0,0,0,.10);
-      --transition: all .25s cubic-bezier(.4,0,.2,1);
-
-      --header-h: 80px;
+    /* Glassmorphism */
+    .glass {
+      background: rgba(22, 25, 34, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',-apple-system,system-ui,Segoe UI,Roboto,sans-serif;
-      color:var(--text-main);
-      line-height:1.6;
-      background:var(--white);
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
+    /* Floating Labels (FIX: remove background "gadget" + lift label high enough so border never crosses text) */
+    .input-group { position: relative; }
+
+    .input-group label {
+      position: absolute;
+      left: 12px;
+      top: 14px;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      color: #94a3b8;
+      z-index: 2;
+      transform-origin: left top;
+      line-height: 1;
+      background: transparent;   /* removed */
+      padding: 0;               /* removed */
+      border-radius: 0;         /* removed */
     }
 
-    .container{max-width:1200px;margin:0 auto;padding:0 24px}
-    a{color:inherit}
-.btn-disabled {
-  pointer-events: none;
-  opacity: 0.45;
-  cursor: default;
-  filter: grayscale(40%);
-}
+    .input-group input:focus ~ label,
+    .input-group input:not(:placeholder-shown) ~ label,
+    .input-group select:focus ~ label,
+    .input-group select[value]:not([value=""]) ~ label,
+    .input-group textarea:focus ~ label,
+    .input-group textarea:not(:placeholder-shown) ~ label {
+      transform: translateY(-32px) scale(0.85); /* was -22px: moved higher to avoid border overlap */
+      color: #3b82f6;
+    }
 
-    /* --- NAVIGATION --- */
-    header{
-      position:fixed;top:0;left:0;right:0;
-      height:var(--header-h);
-      background:rgba(255,255,255,.92);
-      backdrop-filter: blur(14px);
-      z-index:1000;
-      border-bottom:1px solid var(--border);
-      display:flex;align-items:center;
+    .input-group input:focus,
+    .input-group select:focus,
+    .input-group textarea:focus {
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.35);
     }
-    .nav-content{
-      width:100%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
+
+    /* 3D Background Canvas */
+    #three-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      pointer-events: none;
     }
-    .brand{
-      display:flex;align-items:center;gap:12px;
-      text-decoration:none;
-      min-width: 220px;
+
+    /* Animations & Effects */
+    .shine-effect { position: relative; overflow: hidden; }
+    .shine-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      transition: 0.5s;
     }
-    .logo-img{
-      height:42px;
-      width:42px;
+    .shine-effect:hover::after { left: 100%; top: 100%; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    /* ============================
+       CUSTOM SCROLLBAR – BLUE GLOW
+       ============================ */
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0c10;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(
+        180deg,
+        #3b82f6,
+        #60a5fa
+      );
       border-radius: 12px;
-      display:block;
-      box-shadow: 0 12px 24px rgba(0,0,0,.12);
-      background: #fff;
-      object-fit: cover;
-    }
-    .brand-name{
-      font-weight:900;
-      letter-spacing:-.03em;
-      color:var(--brand-dark);
-      line-height:1;
-      font-size:1.05rem;
-      white-space:nowrap;
-    }
-    .brand-name span{color:var(--brand-blue)}
-    nav{display:flex;align-items:center;gap:14px;}
-
-    .nav-links{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-    .chip{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:10px 14px;border-radius:999px;border:1px solid var(--border);
-      text-decoration:none;font-weight:900;font-size:.9rem;
-      color:var(--brand-dark);
-      transition:var(--transition);
-      background:rgba(255,255,255,.75);
-    }
-    .chip:hover{transform:translateY(-1px);border-color:rgba(0,137,208,.45)}
-    .chip.active{
-      border-color: rgba(0,137,208,.55);
-      background: rgba(0,137,208,.12);
-      color: var(--brand-blue-deep);
+      box-shadow:
+        0 0 8px rgba(59, 130, 246, 0.6),
+        inset 0 0 4px rgba(255, 255, 255, 0.2);
+      animation: glowPulse 2s infinite alternate;
     }
 
-    /* --- HERO --- */
-    .hero{
-      position:relative;
-      min-height:100svh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      background:#eaf6ff;
-      text-align:center;
-      padding: calc(var(--header-h) + 40px) 0 72px;
-      isolation:isolate;
-    }
-    #growth-canvas{
-      position:absolute;inset:0;width:100%;height:100%;
-      z-index:0;
-      background:linear-gradient(135deg,#ffffff 0%,#d6f0ff 100%);
-      filter: saturate(1.2) contrast(1.05);
-    }
-    .hero::after{
-      content:"";position:absolute;inset:0;z-index:1;
-      background:
-        radial-gradient(1200px 700px at 50% 18%, rgba(0,137,208,.22), rgba(0,0,0,0) 60%),
-        linear-gradient(to bottom, rgba(255,255,255,.15), rgba(255,255,255,.55));
-      pointer-events:none;
-    }
-    .hero-content{position:relative;z-index:2;width:100%}
-    .hero h1{
-      font-size: clamp(2.6rem, 10vw, 6.4rem);
-      font-weight: 900;
-      line-height: .9;
-      letter-spacing: -0.055em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      color: var(--brand-dark);
-    }
-    .hero h1 span{
-      color:var(--brand-blue);
-      text-shadow: 0 10px 30px rgba(0,137,208,.22);
-    }
-    .hero p{
-      font-size: clamp(1.05rem, 2.8vw, 1.35rem);
-      color: var(--text-main);
-      margin: 0 auto 28px;
-      max-width: 820px;
-      font-weight: 700;
-      background: rgba(255,255,255,.70);
-      backdrop-filter: blur(6px);
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(229,231,235,.75);
-    }
-    .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-
-    /* --- BOUTONS --- */
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding: 16px 28px;
-      border-radius: var(--radius-md);
-      font-weight: 900;
-      text-decoration:none;
-      transition: var(--transition);
-      border:none;
-      cursor:pointer;
-      font-size:1.05rem;
-      letter-spacing:-.01em;
-      white-space:nowrap;
-    }
-    .btn-primary{background:var(--brand-blue);color:var(--white)}
-    .btn-primary:hover{
-      background:var(--brand-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(0,137,208,.26);
-    }
-    .btn-outline{
-      border:2px solid rgba(0,137,208,.65);
-      color:var(--brand-blue-deep);
-      background:rgba(255,255,255,.65);
-    }
-    .btn-outline:hover{background:rgba(0,137,208,.14);transform: translateY(-2px);}
-
-    /* --- SECTIONS --- */
-    section{padding: 96px 0; position:relative; z-index:2; background: #fff}
-    .bg-light{background:var(--bg-light)}
-    h2{
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: var(--brand-dark);
-      text-align:center;
-      margin-bottom: 56px;
-      font-weight: 900;
-      letter-spacing: -0.04em;
-    }
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
-    .card{
-      background:var(--white);
-      padding: 40px;
-      border-radius: var(--radius-lg);
-      border:1px solid var(--border);
-      transition:var(--transition);
-      box-shadow: 0 0 0 rgba(0,0,0,0);
-    }
-    .card:hover{border-color:rgba(0,137,208,.40);transform:translateY(-6px);box-shadow: var(--shadow)}
-    .card h3{font-size:1.45rem;margin-bottom:10px;font-weight:900;color:var(--brand-dark)}
-    .card p{color:var(--text-main);font-weight:600}
-
-    /* --- COMPARATIF --- */
-    .comparison{background:var(--bg-light)}
-    .comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
-    .comp-card{
-      background:var(--white);
-      padding: 44px;
-      border-radius: var(--radius-lg);
-      border:1px solid var(--border);
-      position:relative;
-      transition: var(--transition);
-    }
-    .comp-card:hover{transform:translateY(-4px);box-shadow: var(--shadow)}
-    .comp-card.growth{border: 2px solid rgba(0,137,208,.55)}
-    .comp-badge{
-      position:absolute;top:-14px;left:26px;
-      background:var(--brand-blue);
-      color:#fff;
-      padding:6px 14px;
-      border-radius:999px;
-      font-size:.85rem;
-      font-weight: 900;
-      box-shadow: 0 12px 24px rgba(0,137,208,.22);
-    }
-    .comp-card h4{font-size: 1.4rem;color: var(--brand-dark);font-weight: 900;margin-bottom: 10px;}
-    .comp-card p{color:var(--text-main);font-weight:600}
-    .comp-list{list-style:none;margin-top:22px}
-    .comp-list li{
-      padding: 12px 0;
-      border-bottom: 1px solid #f3f4f6;
-      display:flex;align-items:flex-start;
-      font-weight:700;
-      gap:10px;
-    }
-    .comp-list li::before{
-      content:"✓";
-      color:var(--brand-blue);
-      font-weight:900;
-      margin-top:1px;
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(
+        180deg,
+        #60a5fa,
+        #3b82f6
+      );
+      box-shadow:
+        0 0 14px rgba(59, 130, 246, 0.9),
+        inset 0 0 6px rgba(255, 255, 255, 0.25);
     }
 
-    /* --- CONTACT --- */
-    .contact-section{background: var(--brand-dark); color: var(--white)}
-    .contact-section h2{color:var(--white)}
-    .contact-form{
-      max-width: 720px;
-      margin: 0 auto;
-      background: var(--white);
-      padding: 44px;
-      border-radius: var(--radius-lg);
-      color: var(--brand-dark);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 40px 80px rgba(0,0,0,.22);
-    }
-    .form-grid{display:grid;grid-template-columns: 1fr 1fr;gap: 18px;}
-    .form-group{margin-bottom: 14px}
-    label{
-      display:block;margin-bottom: 8px;font-weight: 900;font-size: .85rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-    input, select, textarea{
-      width:100%;
-      padding: 14px 14px;
-      border-radius: 12px;
-      border: 1.5px solid var(--border);
-      font-family: inherit;
-      font-size: 1rem;
-      transition: var(--transition);
-      background: #fff;
-    }
-    textarea{min-height:120px;resize:vertical}
-    input:focus, select:focus, textarea:focus{
-      outline: none;
-      border-color: rgba(0,137,208,.55);
-      box-shadow: 0 0 0 4px rgba(0,137,208,.12);
-    }
-    .form-actions{margin-top: 10px}
-    .small-note{
-      margin-top: 12px;
-      font-size: .95rem;
-      color: #6b7280;
-      font-weight: 700;
-      text-align:center;
+    /* Animation légère pour effet premium */
+    @keyframes glowPulse {
+      from {
+        box-shadow: 0 0 6px rgba(59,130,246,0.5);
+      }
+      to {
+        box-shadow: 0 0 12px rgba(59,130,246,0.9);
+      }
     }
 
-    /* Sticky Mobile CTA */
-    .sticky-cta{
-      position:fixed;bottom:0;left:0;right:0;
-      background: rgba(255,255,255,.96);
-      padding: 12px 16px;
-      border-top: 1px solid var(--border);
-      display:none;
-      z-index:1000;
-      box-shadow: 0 -10px 30px rgba(0,0,0,.12);
-      backdrop-filter: blur(10px);
-    }
-
-    /* FOOTER */
-    footer{padding: 76px 0;text-align:center;border-top: 1px solid var(--border);background:#fff;}
-    .footer-logo{
-      height: 42px;width: 42px;border-radius: 12px;margin-bottom: 18px;opacity: .95;
-      box-shadow: 0 10px 20px rgba(0,0,0,.10);
-    }
-
-    /* ✅ Cookie banner CSS (IMPORTANT) */
-    .cookie-banner{
-      position:fixed;
-      left:16px; right:16px; bottom:16px;
-      z-index:2000;
-      display:none;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 16px;
-      border-radius:14px;
-      background:#111;
-      color:#fff;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-      font-size:14px;
-      line-height:1.35;
-    }
-    .cookie-svg{width:44px;height:44px;flex:0 0 auto;}
-    .cookie-text{margin:0;flex:1 1 auto;opacity:.95;}
-    .cookie-actions{display:flex;gap:10px;flex:0 0 auto;}
-    .cookie-btn{
-      border:none;cursor:pointer;
-      padding:10px 14px;border-radius:12px;
-      font-weight:900;font-size:14px;
-      transition:transform .08s ease, opacity .2s ease;
-    }
-    .cookie-btn:active{transform:scale(.98)}
-    .cookie-btn.accept{background:#00c389;color:#06110c;}
-    .cookie-btn.refuse{
-      background:#2b2b2b;color:#fff;
-      border:1px solid rgba(255,255,255,.18);
-    }
-
-    @media (max-width: 900px){
-      .contact-form{padding: 34px}
-      .card{padding: 32px}
-      .comp-card{padding: 36px}
-    }
-    @media (max-width: 768px){
-      :root{--header-h: 72px;}
-      .sticky-cta{display:block}
-      header .btn{display:none}
-      .container{padding: 0 16px}
-      .brand{min-width:auto}
-      .brand-name{display:none}
-      .nav-links{display:flex;gap:8px;}
-      .chip{padding: 9px 10px;font-size: .85rem;}
-      section{padding: 80px 0}
-      .hero{min-height: 88svh;padding: calc(var(--header-h) + 40px) 0 64px}
-      .hero-actions{gap:12px}
-      .btn{width: 100%; max-width: 360px}
-      .form-grid{grid-template-columns: 1fr}
-      .cookie-banner{flex-direction:column;align-items:flex-start;}
-      .cookie-actions{width:100%}
-      .cookie-btn{width:100%}
-    }
-    @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
   </style>
 </head>
 
-<body>
-  <!-- =========================================================
-       ✅ GTM NOSCRIPT (OK)
-       NOTE: GTM SCRIPT sera injecté via JS uniquement si "accept"
-     ========================================================= -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCZT7PQ"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
+<body class="antialiased font-sans">
 
-  <!-- STICKY MOBILE -->
-  <div class="sticky-cta">
-    <a href="#contact" class="btn btn-primary" style="width:100%;" data-track="cta_sticky">Diagnostic Gratuit</a>
-  </div>
+  <!-- 3D Canvas Context -->
+  <canvas id="three-canvas"></canvas>
 
-  <!-- HEADER -->
-  <header>
-    <div class="container nav-content">
-      <a class="brand" href="https://stratads.fr/" aria-label="Aller sur StratAds Premium" data-track="nav_to_premium">
-        <img src="/favicon.png" alt="Logo StratAds" class="logo-img" onerror="this.onerror=null; this.src='favicon.png';" />
-        <div class="brand-name">STRATADS <span>GROWTH</span></div>
-      </a>
+  <!-- Floating Navigation -->
+  <nav class="fixed top-6 right-6 z-50">
+    <a href="https://www.stratads.fr/"
+       class="glass shine-effect px-6 py-3 rounded-full flex items-center gap-2 text-sm font-semibold tracking-wide hover:border-blue-500/50 transition-all duration-300 group shadow-2xl">
+      <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+      Aller à StratAds Premium
+      <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+      </svg>
+    </a>
+  </nav>
 
-      <nav>
-        <div class="nav-links" aria-label="Navigation">
-          <a class="chip" href="https://stratads.fr/" data-track="switch_premium">StratAds Premium</a>
-          <a class="chip active" href="croissance.html" data-track="switch_growth" aria-current="page">StratAds Growth</a>
-        </div>
-        <a href="#contact" class="btn btn-primary" data-track="cta_header">Diagnostic Gratuit</a>
-      </nav>
+  <!-- Hero Section -->
+  <header class="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
+    <div class="max-w-4xl text-center z-10 hero-content">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8 opacity-0 reveal-hero">
+        Propulsez votre acquisition
+      </div>
+      <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6 leading-tight opacity-0 reveal-hero">
+        STRATADS <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600">GROWTH</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed opacity-0 reveal-hero">
+        L'offre d'accompagnement dédiée aux entrepreneurs et petites structures. Générez des leads qualifiés via une méthodologie publicitaire éprouvée, sans complexité technique.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 reveal-hero">
+        <a href="#contact" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20 flex items-center gap-2 active:scale-95">
+          Obtenir mon diagnostic
+        </a>
+        <a href="#offres" class="px-8 py-4 glass hover:bg-white/10 text-white rounded-xl font-bold transition-all active:scale-95">
+          Découvrir l'offre
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-50">
+      <div class="w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center p-1">
+        <div class="w-1 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+      </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <canvas id="growth-canvas" aria-hidden="true"></canvas>
-    <div class="hero-content">
-      <div class="container">
-        <h1>STRATADS <span>GROWTH</span></h1>
-        <p>Structurez votre acquisition et accélérez vos résultats. La méthode StratAds en version accessible et standardisée pour entrepreneurs ambitieux et TPE.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary" data-track="cta_hero_main">Obtenir mon diagnostic</a>
-          <a href="#comparatif" class="btn btn-outline" data-track="cta_hero_sec">Découvrir l'offre</a>
+  <!-- Targets Section -->
+  <section class="py-32 px-4 max-w-7xl mx-auto overflow-hidden">
+    <div class="text-center mb-20">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 stagger-target">Une solution pour chaque étape.</h2>
+      <p class="text-slate-400 stagger-target">Optimisé pour ceux qui veulent des résultats, pas des rapports complexes.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Card 1 -->
+      <div class="card-3d glass p-10 rounded-3xl group cursor-default hover:border-blue-500/30 transition-colors stagger-target">
+        <div class="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
         </div>
+        <h3 class="text-xl font-bold mb-4">Entrepreneurs</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Externalisez votre acquisition pour vous concentrer sur votre cœur de métier et vos ventes.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-3d glass p-10 rounded-3xl group cursor-default hover:border-blue-500/30 transition-colors stagger-target">
+        <div class="w-12 h-12 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-4">Indépendants</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Passez d'un flux de clients irrégulier à un système de génération de leads automatisé.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-3d glass p-10 rounded-3xl group cursor-default hover:border-blue-500/30 transition-colors stagger-target">
+        <div class="w-12 h-12 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-4">TPE & PME</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Structurez votre croissance digitale avec des campagnes rentables et un suivi de performance clair.</p>
       </div>
     </div>
   </section>
 
-  <!-- POUR QUI -->
-  <section>
-    <div class="container">
-      <h2>L'acquisition pensée pour vous</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Entrepreneurs</h3>
-          <p>Focalisez-vous sur votre cœur de métier pendant que nous structurons un système simple pour générer des prospects.</p>
-        </article>
-        <article class="card">
-          <h3>Indépendants</h3>
-          <p>Stabilisez votre activité avec un flux régulier de demandes, sans complexifier votre quotidien.</p>
-        </article>
-        <article class="card">
-          <h3>TPE / PME</h3>
-          <p>Passez un cap avec une structure de campagnes claire, suivie et optimisée avec méthode.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMPARATIF -->
-  <section class="comparison" id="comparatif">
-    <div class="container">
-      <h2>Growth ou Premium ?</h2>
-      <div class="comp-grid">
-        <div class="comp-card growth">
-          <span class="comp-badge">OFFRE GROWTH</span>
-          <h4>StratAds Growth</h4>
-          <p>Une solution structurée pour lancer et stabiliser votre acquisition digitale.</p>
-          <ul class="comp-list">
-            <li>Setup publicitaire expert (Meta ou Google)</li>
-            <li>Structure de campagne standardisée</li>
-            <li>Reporting mensuel de performance</li>
-            <li>Accompagnement réactif par email</li>
-            <li>Idéal budgets &lt; 2 500€ / mois</li>
+  <!-- Comparison Section -->
+  <section id="offres" class="py-32 px-4 bg-slate-900/30 border-y border-white/5">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Offer Growth -->
+        <div class="relative p-8 md:p-12 rounded-[2rem] bg-gradient-to-b from-blue-600/10 to-transparent border border-blue-500/30 reveal-compare-left">
+          <div class="absolute -top-4 left-8 px-4 py-1 bg-blue-600 text-[10px] font-bold tracking-widest uppercase rounded-full">Offre Growth</div>
+          <h3 class="text-3xl font-bold mb-6">Accélération</h3>
+          <ul class="space-y-4 mb-10 text-slate-300">
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path>
+              </svg>
+              Campagnes publicitaires optimisées
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path>
+              </svg>
+              Dashboard de performance clair
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path>
+              </svg>
+              Méthodologie "Lead Gen" éprouvée
+            </li>
+            <li class="flex items-center gap-3 text-slate-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636"></path>
+              </svg>
+              Stratégie multi-canale complexe
+            </li>
           </ul>
+          <a href="#contact" class="block text-center w-full py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors">Choisir Growth</a>
         </div>
 
-        <div class="comp-card">
-          <h4>StratAds Premium</h4>
-          <p>Un accompagnement avancé pour les entreprises qui veulent aller beaucoup plus loin.</p>
-          <ul class="comp-list">
-            <li>Stratégie omnicanale personnalisée</li>
-            <li>Optimisation complète du tunnel de vente</li>
-            <li>Scaling + tests A/B intensifs</li>
-            <li>Appels stratégiques réguliers</li>
-            <li>Tracking data & analytique avancée</li>
-          </ul>
-        </div>
-      </div>
-
-      <div style="text-align:center;margin-top:22px;">
-        <a class="chip" href="https://stratads.fr/" data-track="cta_to_premium">Découvrir StratAds Premium</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact-section">
-    <div class="container">
-      <h2>Prêt pour la croissance ?</h2>
-
-      <div class="contact-form">
-        <!-- ✅ FORMULAIRE NETLIFY (distinct) -->
-        <form
-          id="growth-form"
-          name="stratads-growth"
-          method="POST"
-          netlify
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          action="/merci"
-        >
-          <!-- ✅ Obligatoires Netlify -->
-          <input type="hidden" name="form-name" value="stratads-growth" />
-          <input type="hidden" name="subject" value="Nouveau lead – Growth" />
-          <input type="hidden" name="page_type" value="growth" />
-
-          <!-- ✅ Ajout utile : consent snapshot -->
-          <input type="hidden" id="cookie_consent_snapshot" name="cookie_consent" value="" />
-
-          <!-- Honeypot anti-spam -->
-          <p style="display:none;">
-            <label>Ne pas remplir :
-              <input name="bot-field" autocomplete="off" />
-            </label>
+        <!-- Link to Premium -->
+        <div class="reveal-compare-right">
+          <h2 class="text-3xl font-bold mb-6">Besoin d'une solution sur-mesure ?</h2>
+          <p class="text-slate-400 mb-8 leading-relaxed">
+            Pour les structures avec des besoins scalables, une vision branding forte et des budgets conséquents, découvrez notre branche Premium.
           </p>
+          <a href="https://www.stratads.fr/" class="inline-flex items-center gap-2 text-blue-400 font-bold group hover:text-blue-300 transition-all">
+            Vers StratAds Premium
+            <svg class="w-5 h-5 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
+        </div>
 
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="name">Nom complet</label>
-              <input type="text" id="name" name="name" placeholder="Votre nom" autocomplete="name" required />
-            </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="form-group">
-              <label for="email">Email professionnel</label>
-              <input type="email" id="email" name="email" placeholder="contact@entreprise.com" autocomplete="email" required />
-            </div>
+  <!-- Contact Form Section -->
+  <section id="contact" class="py-32 px-4">
+    <div class="max-w-3xl mx-auto glass p-8 md:p-16 rounded-[2.5rem] relative overflow-hidden reveal-form">
+      <div class="relative z-10">
+        <h2 class="text-4xl font-bold mb-4 text-center">Lancez votre croissance.</h2>
+        <p class="text-slate-400 text-center mb-12">Remplissez ce formulaire pour recevoir un diagnostic gratuit de votre acquisition actuelle.</p>
+
+        <form name="stratads-growth" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="hidden" name="form-name" value="stratads-growth">
+          <input type="hidden" name="subject" value="Nouveau contact StratAds Growth">
+          <input type="hidden" name="page_type" value="growth">
+
+          <p class="hidden"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
+
+          <div class="input-group">
+            <input type="text" name="name" id="name" required placeholder=" " class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all">
+            <label for="name">Nom complet</label>
           </div>
 
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="url">Site / page</label>
-              <input type="url" id="url" name="url" placeholder="https://www.votre-site.com" inputmode="url" />
-            </div>
-
-            <div class="form-group">
-              <label for="budget">Budget pub mensuel estimé</label>
-              <select id="budget" name="budget" required>
-                <option value="" disabled selected>Choisir…</option>
-                <option value="500-1000">500€ - 1 000€</option>
-                <option value="1000-3000">1 000€ - 3 000€</option>
-                <option value="3000+">Plus de 3 000€</option>
-              </select>
-            </div>
+          <div class="input-group">
+            <input type="email" name="email" id="email" required placeholder=" " class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all">
+            <label for="email">Email professionnel</label>
           </div>
 
-          <div class="form-group">
-            <label for="goal">Objectif principal</label>
-            <select id="goal" name="goal" required>
-              <option value="" disabled selected>Choisir…</option>
-              <option value="leads">Obtenir plus de leads</option>
-              <option value="sales">Augmenter les ventes</option>
-              <option value="visibility">Gagner en visibilité</option>
-              <option value="structure">Structurer mon acquisition</option>
+          <div class="input-group md:col-span-2">
+            <input type="url" name="url" id="url" placeholder=" " class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all">
+            <label for="url">Site web / Page (optionnel)</label>
+          </div>
+
+          <div class="input-group">
+            <select name="budget" id="budget" required class="w-full bg-premium-card border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all text-slate-300 appearance-none">
+              <option value="" disabled selected></option>
+              <option value="500-1500">500€ - 1 500€ / mois</option>
+              <option value="1500-5000">1 500€ - 5 000€ / mois</option>
+              <option value="5000+">Plus de 5 000€ / mois</option>
             </select>
+            <label for="budget">Budget pub mensuel</label>
           </div>
 
-          <div class="form-group">
-            <label for="message">Message (optionnel)</label>
-            <textarea id="message" name="message" placeholder="Contexte, offre, cible, zone géographique, etc."></textarea>
+          <div class="input-group">
+            <select name="objective" id="objective" required class="w-full bg-premium-card border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all text-slate-300 appearance-none">
+              <option value="" disabled selected></option>
+              <option value="leads">Générer des leads</option>
+              <option value="sales">Ventes e-commerce</option>
+              <option value="notoriety">Notoriété de marque</option>
+            </select>
+            <label for="objective">Objectif principal</label>
           </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" style="width:100%;" data-track="form_submit">
-              Recevoir mon diagnostic gratuit
+          <div class="input-group md:col-span-2">
+            <textarea name="message" id="message" rows="4" placeholder=" " class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-blue-500 transition-all"></textarea>
+            <label for="message">Votre message (optionnel)</label>
+          </div>
+
+          <div class="md:col-span-2 pt-4">
+            <button type="submit" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl transition-all shadow-xl shadow-blue-600/30 transform active:scale-95 shine-effect">
+              Envoyer ma demande
             </button>
-            <div class="small-note">Réponse sous 48h (jours ouvrés).</div>
           </div>
         </form>
-
-        <div id="success" style="display:none;text-align:center;padding-top:12px;font-weight:900;color:var(--brand-blue);">
-          Demande envoyée ! Nous revenons vers vous sous 48h.
-        </div>
-
-        <div id="error" style="display:none;text-align:center;padding-top:12px;font-weight:900;color:#ef4444;">
-          Oups — envoi impossible. Réessaie ou contacte-nous via StratAds Premium.
-        </div>
       </div>
+
+      <!-- Form Glow -->
+      <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-600/20 blur-[100px] pointer-events-none"></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <img src="/favicon.png" alt="StratAds" class="footer-logo" onerror="this.onerror=null; this.src='favicon.png';" />
-      <p style="color:var(--text-muted);font-size:.95rem;font-weight:800;">
-        © 2024 StratAds Growth — performance accessible & structurée.
-      </p>
-      <p style="margin-top:10px;">
-        <a class="chip" href="https://stratads.fr/" data-track="footer_to_premium">Aller sur StratAds Premium</a>
-      </p>
+  <!-- Footer -->
+  <footer class="py-12 border-t border-white/5 text-center text-slate-500 text-sm">
+    <p class="mb-4">© 2026 StratAds Growth. Tous droits réservés.</p>
+    <div class="flex justify-center gap-6">
+      <a href="https://www.stratads.fr/" class="hover:text-blue-400 transition-colors">Premium</a>
     </div>
   </footer>
 
-  <!-- =========================================================
-       ✅ COOKIE BANNER (DOIT ÊTRE DANS <body>)
-     ========================================================= -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookies">
-    <svg class="cookie-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="256" cy="256" r="224" fill="#E6AA68"/>
-      <path fill="#CCA05A" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32z" opacity="0.3"/>
-      <circle cx="180" cy="160" r="25" fill="#3E2723"/>
-      <circle cx="340" cy="200" r="30" fill="#3E2723"/>
-      <circle cx="260" cy="320" r="35" fill="#3E2723"/>
-      <circle cx="140" cy="300" r="20" fill="#3E2723"/>
-      <circle cx="380" cy="320" r="22" fill="#3E2723"/>
-      <circle cx="280" cy="100" r="20" fill="#3E2723"/>
-      <circle cx="100" cy="220" r="15" fill="#3E2723"/>
-      <circle cx="400" cy="120" r="18" fill="#3E2723"/>
-    </svg>
-
-    <p class="cookie-text">
-      Nous utilisons des cookies pour mesurer l’audience et améliorer votre expérience.
-      Vous pouvez accepter ou refuser.
-    </p>
-
-    <div class="cookie-actions">
-      <button id="accept-cookies" class="cookie-btn accept" type="button">Accepter</button>
-      <button id="refuse-cookies" class="cookie-btn refuse" type="button">Refuser</button>
-    </div>
-  </div>
-
   <script>
-    // =========================
-    // Cookie helpers
-    // =========================
-    function setCookie(name, value, days) {
-      const d = new Date();
-      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-      document.cookie = name + "=" + value + ";path=/;expires=" + d.toUTCString() + ";SameSite=Lax";
-    }
+    // --- 1. THREE.JS BACKGROUND ---
+    const canvas = document.querySelector('#three-canvas');
 
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    }
+    // prefers-reduced-motion: stop heavy background animation if user requests it
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function showBanner() {
-      const banner = document.getElementById("cookie-banner");
-      if (banner) banner.style.display = "flex";
-    }
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-    function hideBanner() {
-      const banner = document.getElementById("cookie-banner");
-      if (banner) banner.style.display = "none";
-    }
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0c10, 0.05);
 
-    // =========================
-    // ✅ Load GTM only on accept
-    // =========================
-    function loadGTM() {
-      if (window.__gtm_loaded) return;
-      window.__gtm_loaded = true;
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 5;
 
-      // inject gtm.js
-      const s = document.createElement("script");
-      s.async = true;
-      s.src = "https://www.googletagmanager.com/gtm.js?id=GTM-NCZT7PQ";
-      document.head.appendChild(s);
+    const starGroup = new THREE.Group();
+    scene.add(starGroup);
 
-      // tell dataLayer
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "gtm_loaded_via_consent" });
-    }
+    function createStars(count, size, range, color, opacity) {
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(count * 3);
 
-    function pushConsent(consent) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "cookie_consent",
-        consent: consent // "granted" | "denied"
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        positions[i3]     = (Math.random() - 0.5) * range;
+        positions[i3 + 1] = (Math.random() - 0.5) * range;
+        positions[i3 + 2] = (Math.random() - 0.5) * range;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const material = new THREE.PointsMaterial({
+        size,
+        color,
+        transparent: true,
+        opacity,
+        sizeAttenuation: true,
+        depthWrite: false
       });
+
+      return new THREE.Points(geometry, material);
     }
 
-    function applyConsent(choice) {
-      // update hidden field for Netlify
-      const snap = document.getElementById("cookie_consent_snapshot");
-      if (snap) snap.value = choice;
+    const starsBack  = createStars(1500, 0.015, 20, 0x88ccff, 0.65);
+    const starsFront = createStars(220,  0.04,  15, 0xffffff, 0.75);
+    starGroup.add(starsBack);
+    starGroup.add(starsFront);
 
-      if (choice === "accepted") {
-        pushConsent("granted");
-        loadGTM();
-      } else {
-        pushConsent("denied");
-      }
-    }
+    let mouseX = 0, mouseY = 0;
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
 
-    // Init banner
-    (function initCookieBanner() {
-      const consent = getCookie("cookie_consent");
-      if (!consent) {
-        showBanner();
-        applyConsent("refused"); // default denied tant que pas de choix
-        return;
-      }
-      hideBanner();
-      applyConsent(consent);
-    })();
-
-    // Buttons
-    document.getElementById("accept-cookies").addEventListener("click", function () {
-      setCookie("cookie_consent", "accepted", 365);
-      applyConsent("accepted");
-      hideBanner();
+    document.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX - windowHalfX) * 0.0001;
+      mouseY = (event.clientY - windowHalfY) * 0.0001;
     });
 
-    document.getElementById("refuse-cookies").addEventListener("click", function () {
-      setCookie("cookie_consent", "refused", 365);
-      applyConsent("refused");
-      hideBanner();
-    });
-  </script>
-<script>
-  (function () {
-    const path = window.location.pathname;
-
-    const btnGrowth = document.getElementById("btn-growth");
-    const btnPremium = document.getElementById("btn-premium");
-
-    if (!btnGrowth || !btnPremium) return;
-
-    // Si on est sur /growth
-    if (path === "/growth" || path === "/growth/") {
-      btnGrowth.classList.add("btn-disabled");
-      btnGrowth.removeAttribute("href");
-    }
-
-    // Si on est sur la homepage (premium)
-    if (path === "/" || path === "/index.html") {
-      btnPremium.classList.add("btn-disabled");
-      btnPremium.removeAttribute("href");
-    }
-  })();
-</script>
-
-  <script>
-    /**
-     * FOND DYNAMIQUE
-     */
-    const canvas = document.getElementById('growth-canvas');
-    const ctx = canvas.getContext('2d', { alpha: true });
-
-    let W = 0, H = 0, DPR = 1;
-    let particles = [];
-    let bars = [];
+    const clock = new THREE.Clock();
     let rafId = null;
 
-    function isMobile() {
-      return window.matchMedia('(max-width: 768px)').matches;
+    function renderOnce() {
+      renderer.render(scene, camera);
     }
 
-    function setupCanvasSize() {
-      DPR = Math.min(window.devicePixelRatio || 1, 2);
-      W = Math.floor(window.innerWidth);
-      H = Math.floor(window.innerHeight);
+    function animate() {
+      rafId = requestAnimationFrame(animate);
 
-      canvas.width = Math.floor(W * DPR);
-      canvas.height = Math.floor(H * DPR);
-      canvas.style.width = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const t = clock.getElapsedTime();
+
+      // slow drift
+      starGroup.rotation.y = t * 0.02;
+      starGroup.rotation.x = t * 0.005;
+
+      // subtle parallax (additive, not overwriting the base drift)
+      starGroup.rotation.y += mouseX * 1.2;
+      starGroup.rotation.x += mouseY * 1.2;
+
+      // tiny differential movement for depth feel
+      starsFront.rotation.y = t * 0.01;
+
+      renderer.render(scene, camera);
     }
 
-    function initAnimation() {
-      setupCanvasSize();
-
-      const particleCount = isMobile() ? 42 : 78;
-      const barCount = isMobile() ? 10 : 16;
-
-      particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          vx: (Math.random() - 0.5) * (isMobile() ? 0.55 : 0.85),
-          vy: (Math.random() - 0.5) * (isMobile() ? 0.55 : 0.85),
-          size: Math.random() * 2.2 + (isMobile() ? 1.3 : 1.6),
-        });
-      }
-
-      bars = [];
-      for (let i = 0; i < barCount; i++) {
-        bars.push({
-          x: (W / barCount) * i + Math.random() * 50,
-          w: isMobile() ? 30 : 46,
-          h: 0,
-          targetH: Math.random() * (H * 0.48) + 90,
-          speed: Math.random() * 0.025 + 0.007,
-        });
-      }
+    if (prefersReducedMotion) {
+      // Render a static frame only
+      renderOnce();
+    } else {
+      animate();
     }
-
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-
-      ctx.shadowBlur = 18;
-      ctx.shadowColor = "rgba(0,137,208,0.25)";
-
-      for (const bar of bars) {
-        bar.h += (bar.targetH - bar.h) * bar.speed;
-        if (Math.abs(bar.h - bar.targetH) < 1) {
-          bar.targetH = Math.random() * (H * 0.48) + 70;
-        }
-        const grad = ctx.createLinearGradient(0, H, 0, H - bar.h);
-        grad.addColorStop(0, 'rgba(0, 137, 208, 0.10)');
-        grad.addColorStop(1, 'rgba(0, 137, 208, 0.40)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(bar.x, H - bar.h, bar.w, bar.h);
-      }
-
-      ctx.shadowBlur = 10;
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-
-        ctx.fillStyle = 'rgba(0, 137, 208, 0.70)';
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      const connectionDist = isMobile() ? 150 : 190;
-      ctx.shadowBlur = 0;
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(0, 137, 208, ${0.55 * (1 - dist / connectionDist)})`;
-            ctx.lineWidth = 1.6;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      rafId = requestAnimationFrame(draw);
-    }
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = null;
-      } else {
-        if (!rafId) draw();
-      }
-    });
 
     window.addEventListener('resize', () => {
-      initAnimation();
+      windowHalfX = window.innerWidth / 2;
+      windowHalfY = window.innerHeight / 2;
+
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+
+      if (prefersReducedMotion) renderOnce();
     });
 
-    initAnimation();
-    draw();
+    // --- 2. GSAP ANIMATIONS ---
+    gsap.registerPlugin(ScrollTrigger);
 
-    /**
-     * NETLIFY FORM (AJAX submit + message success)
-     */
-    const form = document.getElementById('growth-form');
-    const success = document.getElementById('success');
-    const errorBox = document.getElementById('error');
+    const tlHero = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    tlHero.to('.reveal-hero', {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      stagger: 0.2,
+      delay: 0.5
+    });
 
-    function encodeFormData(formEl) {
-      const data = new FormData(formEl);
-      return new URLSearchParams(data).toString();
-    }
+    gsap.from('.stagger-target', {
+      scrollTrigger: {
+        trigger: '.stagger-target',
+        start: 'top 85%'
+      },
+      opacity: 0,
+      y: 40,
+      duration: 1,
+      stagger: 0.15,
+      ease: 'power3.out'
+    });
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      success.style.display = 'none';
-      errorBox.style.display = 'none';
+    gsap.from('.reveal-compare-left', {
+      scrollTrigger: { trigger: '.reveal-compare-left', start: 'top 80%' },
+      opacity: 0, x: -50, duration: 1, ease: 'power3.out'
+    });
+    gsap.from('.reveal-compare-right', {
+      scrollTrigger: { trigger: '.reveal-compare-right', start: 'top 80%' },
+      opacity: 0, x: 50, duration: 1, ease: 'power3.out'
+    });
 
-      // snapshot consent at submit time
-      const snap = document.getElementById("cookie_consent_snapshot");
-      if (snap && !snap.value) {
-        // if user never chose, treat as refused
-        snap.value = (getCookie("cookie_consent") || "refused");
-      }
+    gsap.from('.reveal-form', {
+      scrollTrigger: { trigger: '.reveal-form', start: 'top 85%' },
+      opacity: 0, scale: 0.95, y: 30, duration: 1, ease: 'power3.out'
+    });
 
-      const submitBtn = form.querySelector('button[type="submit"]');
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.85';
+    // --- 3. 3D CARD TILT ---
+    const cards = document.querySelectorAll('.card-3d');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
 
-      try {
-        const body = encodeFormData(form);
-        const res = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body
+        gsap.to(card, {
+          rotateX: rotateX,
+          rotateY: rotateY,
+          scale: 1.02,
+          duration: 0.5,
+          ease: 'power2.out'
         });
-        if (!res.ok) throw new Error('Network');
+      });
 
-        form.style.display = 'none';
-        success.style.display = 'block';
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      });
+    });
 
-        // optional: push event (only meaningful if GTM loaded)
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "growth_form_success" });
+    // --- 4. FORM HANDLING (select floating labels) ---
+    const selects = document.querySelectorAll('select');
+    selects.forEach(select => {
+      // On load: if default selected has a real value, set attribute for label state
+      if (select.value) select.setAttribute('value', select.value);
 
-      } catch (err) {
-        errorBox.style.display = 'block';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '1';
-      }
+      select.addEventListener('change', (e) => {
+        if (e.target.value) {
+          e.target.setAttribute('value', e.target.value);
+        } else {
+          e.target.removeAttribute('value');
+        }
+      });
     });
   </script>
 </body>
 </html>
+
+
 
