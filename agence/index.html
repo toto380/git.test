@@ -1153,6 +1153,146 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .footer-links a:hover::after{
   width:100%;
 }
+/* CTA top-right (Growth) - glass shine */
+.cta-growth{
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 2000;
+}
+
+@media (max-width: 768px){
+  .cta-growth{ top: 12px; right: 12px; }
+}
+
+.glass{
+  background: rgba(0,0,0,.22);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.92);
+}
+
+.shine-effect{
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::before{
+  content:"";
+  position:absolute;
+  top:-60%;
+  left:-40%;
+  width:60%;
+  height:220%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.18), transparent);
+  transform: rotate(20deg);
+  transition: left .6s ease;
+  pointer-events:none;
+}
+
+.shine-effect:hover::before{
+  left:120%;
+}
+
+.cta-btn{
+  padding: 12px 24px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  box-shadow: 0 25px 60px rgba(0,0,0,.45);
+  transition: .3s ease;
+  text-decoration: none;
+}
+
+.cta-btn:hover{
+  border-color: rgba(59,130,246,.45);
+  box-shadow: 0 25px 70px rgba(0,0,0,.55);
+}
+
+.cta-dot{
+  width:8px;
+  height:8px;
+  border-radius:9999px;
+  background:#3B82F6;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.15); opacity:.7; }
+}
+
+.cta-icon{
+  width:16px;
+  height:16px;
+  transition: transform .25s ease;
+}
+
+.cta-btn:hover .cta-icon{
+  transform: translateX(4px);
+}
+
+/* ===== SCROLLBAR STYLE (BLEU STRATADS) ===== */
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 15, 25, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #3b82f6,
+    #2563eb
+  );
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #60a5fa,
+    #3b82f6
+  );
+}
+
+.parrainage-chip{
+  margin-top: 22px;
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(59,130,246,.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  color: rgba(255,255,255,.75);
+  font-size: .9rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.parrainage-chip a{
+  color: #93c5fd;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(147,197,253,.35);
+  margin-left: 8px;
+}
+
+.parrainage-chip a:hover{
+  color: #fff;
+  border-bottom-color: rgba(255,255,255,.55);
+}
 
   </style>
 </head>
@@ -1268,10 +1408,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCZTW7PQ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="top-actions">
-  <a href="https://stratads.fr" class="btn-top btn-outline">StratAds Premium</a>
-  <a href="/growth" class="btn-top btn-primary">StratAds Growth</a>
-</div>
+<nav class="cta-growth">
+  <a href="/growth" class="glass shine-effect cta-btn">
+    <span class="cta-dot"></span>
+    Aller à StratAds Growth
+    <svg class="cta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+    </svg>
+  </a>
+</nav>
+
 
 
   <!-- HERO -->
@@ -1279,42 +1425,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- PLANETE EN FOND -->
     <div id="earth-bg" aria-hidden="true"></div>
 
-    <!-- TOP TICKER -->
-    <div class="top-ticker">
-      <div class="ticker-content">
-        <span class="ticker-item">META <span class="ticker-val">+12%</span></span>
-        <span class="ticker-item">GOOGLE <span class="ticker-val">-5% CPA</span></span>
-        <span class="ticker-item">TIKTOK <span class="ticker-val">READY</span></span>
-        <span class="ticker-item">SYSTEM <span class="ticker-val">OPTIMAL</span></span>
-        <span class="ticker-item">DATA <span class="ticker-val">100%</span></span>
-        <span class="ticker-item">CLIENT SLOT <span class="ticker-val">OPEN</span></span>
+    
 
-        <span class="ticker-item">META <span class="ticker-val">+12%</span></span>
-        <span class="ticker-item">GOOGLE <span class="ticker-val">-5% CPA</span></span>
-        <span class="ticker-item">TIKTOK <span class="ticker-val">READY</span></span>
-        <span class="ticker-item">SYSTEM <span class="ticker-val">OPTIMAL</span></span>
-      </div>
-    </div>
 
-    <!-- HUD -->
-    <div class="hud-corner hud-tl">
-      StratAds.SYS<br>
-      SECURE
-    </div>
-    <div class="hud-corner hud-tr">
-      SERVER: EU-W<br>
-      LATENCY: 12ms
-    </div>
-    <div class="hud-corner hud-bl">
-      <div class="hud-dot"></div> ACQUISITION_MODE
-    </div>
-    <div class="hud-corner hud-br">
-      V.2.5.0
-    </div>
-
-    <!-- GRID / NOISE -->
-    <div class="hero-grid"></div>
-    <div class="hero-noise"></div>
 
     <!-- Particles -->
     <div class="particle" style="left: 10%; animation-duration: 25s; animation-delay: 0s;"></div>
@@ -1569,7 +1682,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h2 class="heading-premium">Démarrer l'Analyse</h2>
         <p class="sub-heading">Discutons de vos objectifs d'acquisition et de vos enjeux de croissance.</p>
 
-      <!-- FORMULAIRE PREMIUM – NETLIFY -->
+     <div class="parrainage-chip">
+  🎁 Parrainage : invitez un dirigeant et recevez un avantage Premium.
+  <a href="/parrainage">Voir les conditions</a>
+</div>
+
+        <!-- FORMULAIRE PREMIUM – NETLIFY -->
 <form
   class="contact-form"
   name="stratads-premium"
@@ -1807,7 +1925,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   scene.add(rim);
 
   // ---------- Stars ----------
-  const starsCount = isMobile ? 650 : 1100;
+  const starsCount = isMobile ? 1800 : 4200;
   const starsPos = new Float32Array(starsCount * 3);
   for (let i = 0; i < starsCount; i++) {
     const r = 160 + Math.random() * 520;
