@@ -27,6 +27,27 @@ for = "/*"
     img-src 'self' https: data:;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com data:;
-    script-src 'self' 'unsafe-inline' https://unpkg.com https://threejs.org https://fonts.googleapis.com;
-    connect-src 'self' https://*.netlify.app https://api.netlify.com;
+    script-src
+      'self'
+      'unsafe-inline'
+      'unsafe-eval'
+      https://cdn.tailwindcss.com
+      https://cdnjs.cloudflare.com
+      https://unpkg.com
+      https://threejs.org
+      https://fonts.googleapis.com;
+    script-src-elem
+      'self'
+      'unsafe-inline'
+      'unsafe-eval'
+      https://cdn.tailwindcss.com
+      https://cdnjs.cloudflare.com
+      https://unpkg.com
+      https://threejs.org
+      https://fonts.googleapis.com;
+    connect-src
+      'self'
+      https://*.netlify.app
+      https://api.netlify.com;
   """
+
