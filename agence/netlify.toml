@@ -1,25 +1,38 @@
 [build]
-  publish = "."
+  publish = "agence"
+
+# URLs propres vers tes pages HTML
+[[redirects]]
+  from = "/growth"
+  to = "/growth.html"
+  status = 200
+
+[[redirects]]
+  from = "/conditions"
+  to = "/conditions.html"
+  status = 200
+
+[[redirects]]
+  from = "/parrainage"
+  to = "/parrainage.html"
+  status = 200
+
+# (Optionnel) si quelqu'un tape /index
+[[redirects]]
+  from = "/index"
+  to = "/index.html"
+  status = 200
 
 [[headers]]
   for = "/*"
   [headers.values]
-    # Force HTTPS (HSTS)
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-
-    # Anti clickjacking
     X-Frame-Options = "DENY"
-
-    # Anti MIME sniffing
     X-Content-Type-Options = "nosniff"
-
-    # Referrer
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-    # Permissions
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
-    # Content Security Policy
+    # CSP compatible GTM + GA4 (et ton setup actuel)
     Content-Security-Policy = """
 default-src 'self';
 base-uri 'self';
@@ -34,7 +47,6 @@ font-src 'self' https://fonts.gstatic.com data:;
 script-src 'self' 'unsafe-inline' 'unsafe-eval'
   https://unpkg.com
   https://threejs.org
-  https://fonts.googleapis.com
   https://www.googletagmanager.com
   https://www.google-analytics.com
   https://tagmanager.google.com;
@@ -42,19 +54,21 @@ script-src 'self' 'unsafe-inline' 'unsafe-eval'
 script-src-elem 'self' 'unsafe-inline' 'unsafe-eval'
   https://unpkg.com
   https://threejs.org
-  https://fonts.googleapis.com
   https://www.googletagmanager.com
   https://www.google-analytics.com
   https://tagmanager.google.com;
 
+# IMPORTANT pour GA4/GTM : autoriser les calls réseau vers Google
 connect-src 'self'
   https://*.netlify.app
   https://api.netlify.com
   https://www.google-analytics.com
   https://region1.google-analytics.com
   https://stats.g.doubleclick.net
-  https://www.googletagmanager.com;
+  https://www.googletagmanager.com
+  https://tagmanager.google.com;
 
+# IMPORTANT pour GTM : le "noscript iframe" charge souvent via googletagmanager.com
 frame-src 'self'
   https://www.googletagmanager.com
   https://tagmanager.google.com;
