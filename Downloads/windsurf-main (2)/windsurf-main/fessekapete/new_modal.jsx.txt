@@ -1,0 +1,180 @@
+{isRecoveryMode && (
+    <div className="relative overflow-hidden" style={{
+      backgroundColor: "rgba(11, 15, 23, 0.7)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
+      border: "1px solid rgba(255, 255, 255, 0.08)",
+      borderRadius: "24px",
+      padding: "40px 32px",
+      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1)"
+    }}>
+      <h2 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#fff", marginBottom: "8px", textAlign: "center" }}>
+        {t("auto.key36", "Mot de passe oublié ?")}
+      </h2>
+
+      {!recoveryMethod && (
+        <div style={{ marginTop: "24px" }}>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", marginBottom: "24px", textAlign: "center" }}>
+            Comment souhaitez-vous réinitialiser votre mot de passe ?
+          </p>
+          
+          <button onClick={() => setRecoveryMethod('primary')} style={{ width: "100%", padding: "14px", backgroundColor: "#fff", color: "#020617", border: "none", borderRadius: "10px", fontWeight: 600, cursor: "pointer", marginBottom: "12px" }}>
+            Via mon e-mail principal
+          </button>
+
+          <button onClick={() => setRecoveryMethod('recovery')} style={{ width: "100%", padding: "14px", backgroundColor: "rgba(2, 6, 23, 0.5)", color: "#fff", border: "1px solid rgba(51, 65, 85, 0.8)", borderRadius: "10px", fontWeight: 600, cursor: "pointer", marginBottom: "24px" }}>
+            Je n'y ai plus accès (Utiliser l'e-mail de récupération)
+          </button>
+
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => { setIsRecoveryMode(false); setRecoveryMethod(null); }} style={{ background: "none", border: "none", color: "#94a3b8", fontSize: "0.9rem", cursor: "pointer" }}>
+              &larr; Retour à la connexion
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recoveryMethod === 'primary' && (
+        <div style={{ marginTop: "24px" }}>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", marginBottom: "24px", textAlign: "center" }}>
+            Un lien sera envoyé à votre adresse principale.
+          </p>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setError("");
+            setMessage("");
+            if (!email) return;
+            setLoading(true);
+            try {
+              const { sendPasswordResetEmail } = require('firebase/auth');
+              const { auth } = require('../firebase');
+              await sendPasswordResetEmail(auth, email);
+              setMessage("Lien de réinitialisation envoyé avec succès ! Pensez à vérifier vos spams.");
+              setRecoveryMethod('email_sent');
+            } catch (err) {
+              console.error(err);
+              setError("Erreur lors de l'envoi.");
+            } finally {
+              setLoading(false);
+            }
+          }}>
+            <div style={{ marginBottom: "20px" }}>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="votre@email.com" required style={{ width: "100%", backgroundColor: "rgba(2, 6, 23, 0.5)", border: "1px solid rgba(51, 65, 85, 0.8)", borderRadius: "10px", padding: "14px 16px", color: "#fff", fontSize: "1rem" }} />
+            </div>
+            <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", backgroundColor: "#3b82f6", color: "#fff", border: "none", borderRadius: "10px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "16px" }}>
+              {loading ? "Chargement..." : "Envoyer le lien"}
+            </button>
+          </form>
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => setRecoveryMethod(null)} style={{ background: "none", border: "none", color: "#94a3b8", fontSize: "0.9rem", cursor: "pointer" }}>
+              &larr; Retour
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recoveryMethod === 'recovery' && (
+        <div style={{ marginTop: "24px" }}>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", marginBottom: "24px", textAlign: "center" }}>
+            Un code à 6 chiffres sera envoyé à votre e-mail de récupération.
+          </p>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setError("");
+            setMessage("");
+            if (!email) return;
+            setLoading(true);
+            try {
+              const { httpsCallable } = require('firebase/functions');
+              const { functions } = require('../firebase');
+              const sendPasswordResetCode = httpsCallable(functions, 'sendPasswordResetCode');
+              const res = await sendPasswordResetCode({ recoveryEmail: email });
+              if (res.data.resetId) {
+                window.resetIdTemp = res.data.resetId;
+                setMessage("Code envoyé avec succès !");
+                setRecoveryMethod('recovery_code');
+              }
+            } catch (err) {
+              console.error(err);
+              setError("Erreur ou aucun compte trouvé avec cet e-mail.");
+            } finally {
+              setLoading(false);
+            }
+          }}>
+            <div style={{ marginBottom: "20px" }}>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email.recuperation@domaine.com" required style={{ width: "100%", backgroundColor: "rgba(2, 6, 23, 0.5)", border: "1px solid rgba(51, 65, 85, 0.8)", borderRadius: "10px", padding: "14px 16px", color: "#fff", fontSize: "1rem" }} />
+            </div>
+            <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", backgroundColor: "#10b981", color: "#fff", border: "none", borderRadius: "10px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "16px" }}>
+              {loading ? "Envoi..." : "Recevoir le code"}
+            </button>
+          </form>
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => setRecoveryMethod(null)} style={{ background: "none", border: "none", color: "#94a3b8", fontSize: "0.9rem", cursor: "pointer" }}>
+              &larr; Retour
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recoveryMethod === 'recovery_code' && (
+        <div style={{ marginTop: "24px" }}>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", marginBottom: "24px", textAlign: "center" }}>
+            Entrez le code reçu et votre nouveau mot de passe.
+          </p>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setError("");
+            setMessage("");
+            if (verificationCode.length !== 6 || newPassword.length < 6) return;
+            setLoading(true);
+            try {
+              const { httpsCallable } = require('firebase/functions');
+              const { functions } = require('../firebase');
+              const verifyPasswordResetCode = httpsCallable(functions, 'verifyPasswordResetCode');
+              await verifyPasswordResetCode({ resetId: window.resetIdTemp, code: verificationCode, newPassword: newPassword });
+              setMessage("Mot de passe modifié avec succès ! Vous pouvez vous connecter.");
+              setRecoveryMethod('email_sent');
+            } catch (err) {
+              console.error(err);
+              setError("Code invalide ou erreur lors du changement.");
+            } finally {
+              setLoading(false);
+            }
+          }}>
+            <div style={{ marginBottom: "12px" }}>
+              <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} placeholder="Code (6 chiffres)" maxLength={6} required style={{ width: "100%", backgroundColor: "rgba(2, 6, 23, 0.5)", border: "1px solid rgba(51, 65, 85, 0.8)", borderRadius: "10px", padding: "14px 16px", color: "#fff", fontSize: "1.2rem", textAlign: "center", letterSpacing: "5px" }} />
+            </div>
+            <div style={{ marginBottom: "20px" }}>
+              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="Nouveau mot de passe" minLength={6} required style={{ width: "100%", backgroundColor: "rgba(2, 6, 23, 0.5)", border: "1px solid rgba(51, 65, 85, 0.8)", borderRadius: "10px", padding: "14px 16px", color: "#fff", fontSize: "1rem" }} />
+            </div>
+            <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", backgroundColor: "#10b981", color: "#fff", border: "none", borderRadius: "10px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "16px" }}>
+              {loading ? "Validation..." : "Changer mon mot de passe"}
+            </button>
+          </form>
+          <div style={{ textAlign: "center" }}>
+            <button onClick={() => setRecoveryMethod('recovery')} style={{ background: "none", border: "none", color: "#94a3b8", fontSize: "0.9rem", cursor: "pointer" }}>
+              &larr; Retour
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recoveryMethod === 'email_sent' && (
+        <div style={{ marginTop: "24px", textAlign: "center" }}>
+          <div style={{ width: "64px", height: "64px", backgroundColor: "rgba(16, 185, 129, 0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px auto" }}>
+            <svg style={{ width: "32px", height: "32px", color: "#10b981" }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <p style={{ color: "#fff", fontSize: "1.1rem", marginBottom: "12px", fontWeight: 500 }}>
+            Opération réussie !
+          </p>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", marginBottom: "32px" }}>
+            Vous pouvez maintenant vous connecter avec votre nouveau mot de passe (ou vérifier vos e-mails si vous avez demandé un lien).
+          </p>
+          <button onClick={() => { setIsRecoveryMode(false); setRecoveryMethod(null); }} style={{ width: "100%", padding: "14px", backgroundColor: "rgba(255, 255, 255, 0.1)", color: "#fff", border: "1px solid rgba(255, 255, 255, 0.2)", borderRadius: "10px", fontWeight: 600, cursor: "pointer" }}>
+            Retour à la connexion
+          </button>
+        </div>
+      )}
+
+    </div>
+  )}

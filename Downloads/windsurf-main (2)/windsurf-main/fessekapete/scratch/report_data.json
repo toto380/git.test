@@ -1,0 +1,67 @@
+{
+  "translated": [
+    [
+      "navbar.dashboard",
+      "Dashboard"
+    ],
+    [
+      "navbar.servers",
+      "Server"
+    ],
+    [
+      "navbar.billing",
+      "Abrechnung"
+    ],
+    [
+      "navbar.partner",
+      "Partnerbereich"
+    ],
+    [
+      "navbar.logout",
+      "Abmelden"
+    ],
+    [
+      "auto.key1",
+      "Erstellen und Link generieren"
+    ],
+    [
+      "auto.key2",
+      "Abonnieren"
+    ],
+    [
+      "auto.key3",
+      "Agentur- & Partnerprogramm"
+    ],
+    [
+      "auto.key4",
+      "Zentralisieren Sie die Verwaltung all Ihrer Kunden über eine exklusive White-Label-CRM-Oberfläche."
+    ],
+    [
+      "auto.key5",
+      "Neuer Kundenserver ("
+    ]
+  ],
+  "kept": [
+    [
+      "auto.key9",
+      ".stratads.fr"
+    ],
+    [
+      "auto.key14",
+      "Container Config (GTM Server-Side)"
+    ],
+    [
+      "auto.key17",
+      "GTM Server-Side"
+    ],
+    [
+      "auto.key27",
+      "STRAT"
+    ],
+    [
+      "auto.key105",
+      "Load Balancer"
+    ]
+  ],
+  "totalCount": 1038
+}
